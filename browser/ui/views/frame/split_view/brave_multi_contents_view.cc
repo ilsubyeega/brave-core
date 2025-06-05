@@ -25,6 +25,12 @@ namespace {
 constexpr auto kSpacingBetweenContentsWebViews = 4;
 }  // namespace
 
+// static
+BraveMultiContentsView* BraveMultiContentsView::From(MultiContentsView* view) {
+  CHECK(view);
+  return static_cast<BraveMultiContentsView*>(view);
+}
+
 BraveMultiContentsView::BraveMultiContentsView(
     BrowserView* browser_view,
     WebContentsFocusedCallback inactive_contents_focused_callback,
@@ -111,12 +117,6 @@ void BraveMultiContentsView::Layout(PassKey) {
   contents_container_views_[1]->SetBoundsRect(end_rect);
 }
 
-void BraveMultiContentsView::SetActiveIndex(int index) {
-  MultiContentsView::SetActiveIndex(index);
-
-  UpdateSecondaryLocationBar();
-}
-
 float BraveMultiContentsView::GetCornerRadius() const {
   return BraveBrowser::ShouldUseBraveWebViewRoundedCorners(
              browser_view_->browser())
@@ -144,7 +144,7 @@ void BraveMultiContentsView::UpdateSecondaryLocationBar() {
   // as it's attached to inactive contents view.
   int inactive_index = active_index_ == 0 ? 1 : 0;
   secondary_location_bar_->SetWebContents(
-      GetInactiveContentsView()->GetWebContents());
+      GetInactiveContentsView()->web_contents());
   secondary_location_bar_->SetParentWebView(
       contents_container_views_[inactive_index]);
 
