@@ -255,7 +255,7 @@ public final class Domain: NSManagedObject, CRUD {
     }).count
   }
 
-  @MainActor public class func allDomainsWithShredLevelAppExit() -> [Domain]? {
+  public class func allDomainsWithShredLevelAppExit() -> [Domain]? {
     let appExitPredicate = NSPredicate(
       format: "shield_shredLevel == %@",
       SiteShredLevel.appExit.rawValue
