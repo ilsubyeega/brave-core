@@ -823,16 +823,15 @@ void BraveBrowserView::HideSplitView() {
   UpdateContentsSeparatorVisibility();
 }
 
-void BraveBrowserView::UpdateActiveSplitView() {
-  BrowserView::UpdateActiveSplitView();
+void BraveBrowserView::UpdateActiveTabInSplitView() {
+  BrowserView::UpdateActiveTabInSplitView();
   GetBraveMultiContentsView()->UpdateSecondaryLocationBar();
 }
 
-void BraveBrowserView::OnSplitTabContentsUpdated(
-    split_tabs::SplitTabId split_id,
-    std::vector<std::pair<tabs::TabInterface*, int>> prev_tabs,
-    std::vector<std::pair<tabs::TabInterface*, int>> new_tabs) {
-  BrowserView::OnSplitTabContentsUpdated(split_id, prev_tabs, new_tabs);
+void BraveBrowserView::UpdateContentsInSplitView(
+    const std::vector<std::pair<tabs::TabInterface*, int>>& prev_tabs,
+    const std::vector<std::pair<tabs::TabInterface*, int>>& new_tabs) {
+  BrowserView::UpdateContentsInSplitView(prev_tabs, new_tabs);
   GetBraveMultiContentsView()->UpdateSecondaryLocationBar();
 }
 
