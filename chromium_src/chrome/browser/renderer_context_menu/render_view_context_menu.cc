@@ -544,7 +544,7 @@ void BraveRenderViewContextMenu::ExecuteAIChatCommand(int command) {
       ai_chat::HasUserOptedIn(GetProfile()->GetPrefs()) &&
       ai_chat::features::IsContextMenuRewriteInPlaceEnabled() &&
       ai_chat::features::kAIChatSSE.Get() && IsRewriteCommand(command) &&
-      !source_web_contents_->GetUserData(kAIChatRewriteDataKey);
+      !embedder_web_contents_->GetUserData(kAIChatRewriteDataKey);
 
   auto [action_type, p3a_action] = GetActionTypeAndP3A(command);
   auto selected_text = base::UTF16ToUTF8(params_.selection_text);
@@ -564,11 +564,11 @@ void BraveRenderViewContextMenu::ExecuteAIChatCommand(int command) {
   }
 
   if (rewrite_in_place) {
-    source_web_contents_->SetUserData(kAIChatRewriteDataKey,
-                                      std::make_unique<AIChatRewriteData>());
+    embedder_web_contents_->SetUserData(kAIChatRewriteDataKey,
+                                        std::make_unique<AIChatRewriteData>());
     if (!ai_engine_) {
       ai_engine_ = ai_chat::AIChatServiceFactory::GetForBrowserContext(
-                       source_web_contents_->GetBrowserContext())
+                       embedder_web_contents_->GetBrowserContext())
                        ->GetDefaultAIEngine();
     }
     ai_engine_->GenerateRewriteSuggestion(
@@ -576,9 +576,9 @@ void BraveRenderViewContextMenu::ExecuteAIChatCommand(int command) {
         /*selected_language*/ "",
         ai_chat::BindParseRewriteReceivedData(
             base::BindRepeating(&OnRewriteSuggestionDataReceived,
-                                source_web_contents_->GetWeakPtr())),
+                                embedder_web_contents_->GetWeakPtr())),
         base::BindOnce(&OnRewriteSuggestionCompleted,
-                       source_web_contents_->GetWeakPtr(), selected_text,
+                       embedder_web_contents_->GetWeakPtr(), selected_text,
                        action_type));
   } else {
     if (!browser) {
@@ -587,7 +587,7 @@ void BraveRenderViewContextMenu::ExecuteAIChatCommand(int command) {
     }
 
     ai_chat::AIChatTabHelper* helper =
-        ai_chat::AIChatTabHelper::FromWebContents(source_web_contents_);
+        ai_chat::AIChatTabHelper::FromWebContents(embedder_web_contents_);
     if (!helper) {
       VLOG(1) << "Can't get AI chat tab helper";
       return;
@@ -595,7 +595,7 @@ void BraveRenderViewContextMenu::ExecuteAIChatCommand(int command) {
 
     ai_chat::ConversationHandler* conversation =
         ai_chat::AIChatServiceFactory::GetForBrowserContext(
-            source_web_contents_->GetBrowserContext())
+            embedder_web_contents_->GetBrowserContext())
             ->GetOrCreateConversationHandlerForContent(helper->GetContentId(),
                                                        helper->GetWeakPtr());
     // Before trying to activate the panel, unlink page content if needed.
