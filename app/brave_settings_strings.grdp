@@ -1592,6 +1592,9 @@ Leo AI. This action can't be undone.
   <message name="IDS_SETTINGS_LEO_ASSISTANT_MODEL_SELECTION_LABEL" desc="Label for selecting default model">
     Default model for new conversations
   </message>
+  <message name="IDS_SETTINGS_LEO_ASSISTANT_PERSONALIZATION_LABEL" desc="Label for the personalization section">
+    Personalization
+  </message>
   <message name="IDS_SETTINGS_LEO_ASSISTANT_MANAGE_URL" desc="Label for managing accounts url">
     Manage premium subscription
   </message>
