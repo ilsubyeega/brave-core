@@ -68,6 +68,7 @@ class ConversationAPIClient {
     GetSuggestedAndDedupeTopicsForFocusTabs,
     GetFocusTabsForTopic,
     PageScreenshot,
+    UserMemory,
     // TODO(petemill):
     // - Search in-progress?
     // - Sources?
@@ -80,16 +81,18 @@ class ConversationAPIClient {
     mojom::CharacterType role;
     ConversationEventType type;
     std::vector<std::string> content;
-    std::string topic;  // Used in GetFocusTabsForTopic event.
+    std::string topic = "";  // Used in GetFocusTabsForTopic event.
+    std::optional<base::Value::Dict> user_memory = std::nullopt;  // Used in UserMemory event.
 
     ConversationEvent(mojom::CharacterType,
                       ConversationEventType,
                       const std::vector<std::string>&,
-                      const std::string& = "");
+                      const std::string& = "",
+                      std::optional<base::Value::Dict> memory = std::nullopt);
     ConversationEvent();
     ~ConversationEvent();
-    ConversationEvent(const ConversationEvent&);
-    ConversationEvent& operator=(const ConversationEvent&);
+    ConversationEvent(ConversationEvent&&);
+    ConversationEvent& operator=(ConversationEvent&&);
   };
 
   ConversationAPIClient(
@@ -103,7 +106,7 @@ class ConversationAPIClient {
   virtual ~ConversationAPIClient();
 
   virtual void PerformRequest(
-      const std::vector<ConversationEvent>& conversation,
+      std::vector<ConversationEvent> conversation,
       const std::string& selected_language,
       GenerationDataCallback data_received_callback,
       GenerationCompletedCallback completed_callback,
@@ -117,7 +120,7 @@ class ConversationAPIClient {
 
  protected:
   std::string CreateJSONRequestBody(
-      const std::vector<ConversationEvent>& conversation,
+      std::vector<ConversationEvent> conversation,
       const std::string& selected_language,
       const std::optional<std::string>& model_name,
       const bool is_sse_enabled);
@@ -132,7 +135,7 @@ class ConversationAPIClient {
 
  private:
   void PerformRequestWithCredentials(
-      const std::vector<ConversationEvent>& conversation,
+      std::vector<ConversationEvent> conversation,
       const std::string& selected_language,
       const std::optional<std::string>& model_name,
       GenerationDataCallback data_received_callback,

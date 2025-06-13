@@ -115,7 +115,8 @@ base::Value::List ConversationEventsToList(
             "suggestAndDedupeFocusTopics"},
            {ConversationEventType::GetFocusTabsForTopic, "classifyTabs"},
            {ConversationEventType::UploadImage, "uploadImage"},
-           {ConversationEventType::PageScreenshot, "pageScreenshot"}});
+           {ConversationEventType::PageScreenshot, "pageScreenshot"},
+           {ConversationEventType::UserMemory, "userMemory"}});
 
   base::Value::List events;
   for (const auto& event : conversation) {
@@ -185,15 +186,13 @@ ConversationAPIClient::ConversationEvent::ConversationEvent(
     mojom::CharacterType role,
     ConversationEventType type,
     const std::vector<std::string>& content,
-    const std::string& topic)
-    : role(role), type(type), content(content), topic(topic) {}
+    const std::string& topic,
+    std::optional<base::Value::Dict> user_memory)
+    : role(role), type(type), content(content), topic(topic), user_memory(std::move(user_memory)) {}
 ConversationAPIClient::ConversationEvent::ConversationEvent() = default;
 ConversationAPIClient::ConversationEvent::~ConversationEvent() = default;
-ConversationAPIClient::ConversationEvent::ConversationEvent(
-    const ConversationEvent&) = default;
-ConversationAPIClient::ConversationEvent&
-ConversationAPIClient::ConversationEvent::operator=(const ConversationEvent&) =
-    default;
+ConversationAPIClient::ConversationEvent::ConversationEvent(ConversationEvent&&) = default;
+ConversationAPIClient::ConversationEvent& ConversationAPIClient::ConversationEvent::operator=(ConversationEvent&&) = default;
 
 ConversationAPIClient::ConversationAPIClient(
     const std::string& model_name,
@@ -215,7 +214,7 @@ void ConversationAPIClient::ClearAllQueries() {
 }
 
 void ConversationAPIClient::PerformRequest(
-    const std::vector<ConversationEvent>& conversation,
+    std::vector<ConversationEvent> conversation,
     const std::string& selected_language,
     GenerationDataCallback data_received_callback,
     GenerationCompletedCallback completed_callback,
@@ -230,7 +229,7 @@ void ConversationAPIClient::PerformRequest(
 }
 
 std::string ConversationAPIClient::CreateJSONRequestBody(
-    const std::vector<ConversationEvent>& conversation,
+    std::vector<ConversationEvent> conversation,
     const std::string& selected_language,
     const std::optional<std::string>& model_name,
     const bool is_sse_enabled) {
@@ -255,7 +254,7 @@ std::string ConversationAPIClient::CreateJSONRequestBody(
 }
 
 void ConversationAPIClient::PerformRequestWithCredentials(
-    const std::vector<ConversationEvent>& conversation,
+    std::vector<ConversationEvent> conversation,
     const std::string& selected_language,
     const std::optional<std::string>& model_name,
     GenerationDataCallback data_received_callback,
