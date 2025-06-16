@@ -88,7 +88,7 @@ net::NetworkTrafficAnnotationTag GetNetworkTrafficAnnotationTag() {
 }
 
 base::Value::List ConversationEventsToList(
-    const std::vector<ConversationEvent>& conversation) {
+    std::vector<ConversationEvent> conversation) {
   static const base::NoDestructor<std::map<mojom::CharacterType, std::string>>
       kRoleMap({{mojom::CharacterType::HUMAN, "user"},
                 {mojom::CharacterType::ASSISTANT, "assistant"}});
@@ -119,7 +119,7 @@ base::Value::List ConversationEventsToList(
            {ConversationEventType::UserMemory, "userMemory"}});
 
   base::Value::List events;
-  for (const auto& event : conversation) {
+  for (auto& event : conversation) {
     base::Value::Dict event_dict;
 
     // Set role
@@ -135,17 +135,21 @@ base::Value::List ConversationEventsToList(
     if (event.content.empty()) {
       event_dict.Set("content", "");
     } else if (event.content.size() == 1) {
-      event_dict.Set("content", event.content.front());
+      event_dict.Set("content", std::move(event.content.front()));
     } else {
       base::Value::List content_list;
-      for (const auto& content : event.content) {
-        content_list.Append(content);
+      for (auto& content : event.content) {
+        content_list.Append(std::move(content));
       }
       event_dict.Set("content", std::move(content_list));
     }
 
     if (event.type == ConversationEventType::GetFocusTabsForTopic) {
-      event_dict.Set("topic", event.topic);
+      event_dict.Set("topic", std::move(event.topic));
+    }
+
+    if (event.type == ConversationEventType::UserMemory && event.user_memory) {
+      event_dict.Set("memory", std::move(*event.user_memory));
     }
 
     events.Append(std::move(event_dict));
@@ -188,11 +192,18 @@ ConversationAPIClient::ConversationEvent::ConversationEvent(
     const std::vector<std::string>& content,
     const std::string& topic,
     std::optional<base::Value::Dict> user_memory)
-    : role(role), type(type), content(content), topic(topic), user_memory(std::move(user_memory)) {}
+    : role(role),
+      type(type),
+      content(content),
+      topic(topic),
+      user_memory(std::move(user_memory)) {}
 ConversationAPIClient::ConversationEvent::ConversationEvent() = default;
 ConversationAPIClient::ConversationEvent::~ConversationEvent() = default;
-ConversationAPIClient::ConversationEvent::ConversationEvent(ConversationEvent&&) = default;
-ConversationAPIClient::ConversationEvent& ConversationAPIClient::ConversationEvent::operator=(ConversationEvent&&) = default;
+ConversationAPIClient::ConversationEvent::ConversationEvent(
+    ConversationEvent&&) = default;
+ConversationAPIClient::ConversationEvent&
+ConversationAPIClient::ConversationEvent::operator=(ConversationEvent&&) =
+    default;
 
 ConversationAPIClient::ConversationAPIClient(
     const std::string& model_name,
@@ -235,14 +246,12 @@ std::string ConversationAPIClient::CreateJSONRequestBody(
     const bool is_sse_enabled) {
   base::Value::Dict dict;
 
-  dict.Set("events", ConversationEventsToList(conversation));
+  dict.Set("events", ConversationEventsToList(std::move(conversation)));
   dict.Set("model", model_name ? *model_name : model_name_);
   dict.Set("selected_language", selected_language);
   dict.Set("system_language",
            base::StrCat({brave_l10n::GetDefaultISOLanguageCodeString(), "_",
                          brave_l10n::GetDefaultISOCountryCodeString()}));
-  base::StrCat({brave_l10n::GetDefaultISOLanguageCodeString(), "_",
-                brave_l10n::GetDefaultISOCountryCodeString()});
   dict.Set("stream", is_sse_enabled);
 #if !BUILDFLAG(IS_IOS)
   dict.Set("use_citations", true);

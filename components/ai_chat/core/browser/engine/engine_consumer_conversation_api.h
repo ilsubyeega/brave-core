@@ -124,8 +124,8 @@ class EngineConsumerConversationAPI : public EngineConsumer {
   ConversationAPIClient::ConversationEvent
   GetAssociatedContentConversationEvent(const std::string& content,
                                         const bool is_video);
-  std::optional<ConversationAPIClient::ConversationEvent>
-  GetUserMemoryEvent() const;
+  std::optional<ConversationAPIClient::ConversationEvent> GetUserMemoryEvent()
+      const;
 
   std::unique_ptr<ConversationAPIClient> api_ = nullptr;
   raw_ptr<PrefService> pref_service_;

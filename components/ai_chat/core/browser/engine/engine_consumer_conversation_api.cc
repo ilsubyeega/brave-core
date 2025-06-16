@@ -51,8 +51,7 @@ EngineConsumerConversationAPI::EngineConsumerConversationAPI(
     AIChatCredentialManager* credential_manager,
     ModelService* model_service,
     PrefService* pref_service)
-    : EngineConsumer(model_service),
-      pref_service_(pref_service) {
+    : EngineConsumer(model_service), pref_service_(pref_service) {
   DCHECK(!model_options.name.empty());
   model_name_ = model_options.name;
   api_ = std::make_unique<ConversationAPIClient>(
@@ -131,12 +130,12 @@ void EngineConsumerConversationAPI::GenerateRewriteSuggestion(
     GenerationDataCallback received_callback,
     GenerationCompletedCallback completed_callback) {
   std::vector<ConversationEvent> conversation;
-  conversation.emplace_back(mojom::CharacterType::HUMAN, 
-                          ConversationEventType::UserText, 
-                          std::vector<std::string>{text});
   conversation.emplace_back(mojom::CharacterType::HUMAN,
-                          ConversationEventType::RequestRewrite,
-                          std::vector<std::string>{question});
+                            ConversationEventType::UserText,
+                            std::vector<std::string>{text});
+  conversation.emplace_back(mojom::CharacterType::HUMAN,
+                            ConversationEventType::RequestRewrite,
+                            std::vector<std::string>{question});
 
   api_->PerformRequest(std::move(conversation), selected_language,
                        std::move(received_callback),
@@ -149,10 +148,11 @@ void EngineConsumerConversationAPI::GenerateQuestionSuggestions(
     const std::string& selected_language,
     SuggestedQuestionsCallback callback) {
   std::vector<ConversationEvent> conversation;
-  conversation.push_back(GetAssociatedContentConversationEvent(page_content, is_video));
+  conversation.push_back(
+      GetAssociatedContentConversationEvent(page_content, is_video));
   conversation.emplace_back(mojom::CharacterType::HUMAN,
-                          ConversationEventType::RequestSuggestedActions,
-                          std::vector<std::string>{""});
+                            ConversationEventType::RequestSuggestedActions,
+                            std::vector<std::string>{""});
 
   auto on_response = base::BindOnce(
       &EngineConsumerConversationAPI::OnGenerateQuestionSuggestionsResponse,
@@ -186,23 +186,28 @@ void EngineConsumerConversationAPI::OnGenerateQuestionSuggestionsResponse(
   std::move(callback).Run(std::move(questions));
 }
 
-std::optional<ConversationEvent> EngineConsumerConversationAPI::GetUserMemoryEvent() const {
-  bool customization_enabled = pref_service_->GetBoolean(prefs::kBraveAIChatUserCustomizationEnabled);
-  bool memory_enabled = pref_service_->GetBoolean(prefs::kBraveAIChatUserMemoryEnabled);
+std::optional<ConversationEvent>
+EngineConsumerConversationAPI::GetUserMemoryEvent() const {
+  bool customization_enabled =
+      pref_service_->GetBoolean(prefs::kBraveAIChatUserCustomizationEnabled);
+  bool memory_enabled =
+      pref_service_->GetBoolean(prefs::kBraveAIChatUserMemoryEnabled);
   if (!customization_enabled && !memory_enabled) {
     return std::nullopt;
   }
 
   base::Value::Dict user_memory;
   if (customization_enabled) {
-    const base::Value::Dict& customizations = pref_service_->GetDict(prefs::kBraveAIChatUserCustomizations);
+    const base::Value::Dict& customizations =
+        pref_service_->GetDict(prefs::kBraveAIChatUserCustomizations);
     if (!customizations.empty()) {
       user_memory = customizations.Clone();
     }
   }
 
   if (memory_enabled) {
-    const base::Value::List& memories = pref_service_->GetList(prefs::kBraveAIChatUserMemories);
+    const base::Value::List& memories =
+        pref_service_->GetList(prefs::kBraveAIChatUserMemories);
     if (!memories.empty()) {
       user_memory.Set("memories", memories.Clone());
     }
@@ -213,12 +218,10 @@ std::optional<ConversationEvent> EngineConsumerConversationAPI::GetUserMemoryEve
   }
 
   return std::optional<ConversationEvent>(ConversationEvent(
-      mojom::CharacterType::HUMAN,
-      ConversationEventType::UserMemory,
+      mojom::CharacterType::HUMAN, ConversationEventType::UserMemory,
       {""},  // Empty content
       "",    // Empty topic
-      std::move(user_memory)
-  ));
+      std::move(user_memory)));
 }
 
 void EngineConsumerConversationAPI::GenerateAssistantResponse(
@@ -318,11 +321,10 @@ EngineConsumerConversationAPI::GetAssociatedContentConversationEvent(
   const std::string& truncated_page_content =
       content.substr(0, max_associated_content_length_);
 
-  return ConversationEvent(
-      mojom::CharacterType::HUMAN,
-      is_video ? ConversationEventType::VideoTranscript
-               : ConversationEventType::PageText,
-      {truncated_page_content});
+  return ConversationEvent(mojom::CharacterType::HUMAN,
+                           is_video ? ConversationEventType::VideoTranscript
+                                    : ConversationEventType::PageText,
+                           {truncated_page_content});
 }
 
 void EngineConsumerConversationAPI::DedupeTopics(

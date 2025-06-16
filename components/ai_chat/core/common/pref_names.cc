@@ -33,9 +33,18 @@ void RegisterProfilePrefs(PrefRegistrySimple* registry) {
     registry->RegisterBooleanPref(kBraveAIChatShowToolbarButton, true);
     registry->RegisterBooleanPref(kBraveAIChatToolbarButtonOpensFullPage, true);
     registry->RegisterBooleanPref(kBraveAIChatTabOrganizationEnabled, true);
-    registry->RegisterBooleanPref(kBraveAIChatUserCustomizationEnabled, false);
-    registry->RegisterDictionaryPref(kBraveAIChatUserCustomizations);
-    registry->RegisterListPref(kBraveAIChatUserMemories);
+    registry->RegisterBooleanPref(kBraveAIChatUserCustomizationEnabled, true);
+    registry->RegisterBooleanPref(kBraveAIChatUserMemoryEnabled, true);
+
+    base::Value::Dict dict;
+    dict.Set("name", "Jane");
+    dict.Set("tone", "formal");
+    registry->RegisterDictionaryPref(kBraveAIChatUserCustomizations,
+                                     std::move(dict));
+    base::Value::List list;
+    list.Append("I like running");
+    list.Append("I lives in Bay Area");
+    registry->RegisterListPref(kBraveAIChatUserMemories, std::move(list));
   }
   registry->RegisterBooleanPref(kEnabledByPolicy, true);
 }

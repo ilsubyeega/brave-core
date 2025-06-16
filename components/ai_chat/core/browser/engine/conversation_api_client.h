@@ -82,7 +82,8 @@ class ConversationAPIClient {
     ConversationEventType type;
     std::vector<std::string> content;
     std::string topic = "";  // Used in GetFocusTabsForTopic event.
-    std::optional<base::Value::Dict> user_memory = std::nullopt;  // Used in UserMemory event.
+    std::optional<base::Value::Dict> user_memory =
+        std::nullopt;  // Used in UserMemory event.
 
     ConversationEvent(mojom::CharacterType,
                       ConversationEventType,
