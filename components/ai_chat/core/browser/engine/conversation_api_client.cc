@@ -135,17 +135,17 @@ base::Value::List ConversationEventsToList(
     if (event.content.empty()) {
       event_dict.Set("content", "");
     } else if (event.content.size() == 1) {
-      event_dict.Set("content", std::move(event.content.front()));
+      event_dict.Set("content", event.content.front());
     } else {
       base::Value::List content_list;
-      for (auto& content : event.content) {
-        content_list.Append(std::move(content));
+      for (const auto& content : event.content) {
+        content_list.Append(content);
       }
       event_dict.Set("content", std::move(content_list));
     }
 
     if (event.type == ConversationEventType::GetFocusTabsForTopic) {
-      event_dict.Set("topic", std::move(event.topic));
+      event_dict.Set("topic", event.topic);
     }
 
     if (event.type == ConversationEventType::UserMemory && event.user_memory) {

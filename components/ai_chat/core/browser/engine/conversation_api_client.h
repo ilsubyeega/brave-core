@@ -94,6 +94,8 @@ class ConversationAPIClient {
     ~ConversationEvent();
     ConversationEvent(ConversationEvent&&);
     ConversationEvent& operator=(ConversationEvent&&);
+    ConversationEvent(const ConversationEvent&) = delete;
+    ConversationEvent& operator=(const ConversationEvent&) = delete;
   };
 
   ConversationAPIClient(
