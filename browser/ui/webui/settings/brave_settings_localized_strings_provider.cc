@@ -666,6 +666,14 @@ void BraveAddCommonStrings(content::WebUIDataSource* html_source,
       {"braveLeoAssistantCustomizationSaveButton", IDS_SETTINGS_LEO_ASSISTANT_CUSTOMIZATION_SAVE_BUTTON},
       {"braveLeoAssistantCustomizationResetButton", IDS_SETTINGS_LEO_ASSISTANT_CUSTOMIZATION_RESET_BUTTON},
 
+      // Leo Assistant Memory Section
+      {"braveLeoAssistantYourMemoriesTitle", IDS_SETTINGS_LEO_ASSISTANT_YOUR_MEMORIES_TITLE},
+      {"braveLeoAssistantYourMemoriesDesc1", IDS_SETTINGS_LEO_ASSISTANT_YOUR_MEMORIES_DESC_1},
+      {"braveLeoAssistantMemoryListEmptyLabel", IDS_SETTINGS_LEO_ASSISTANT_MEMORY_LIST_EMPTY_LABEL},
+      {"braveLeoAssistantAddNewMemoryButtonLabel", IDS_SETTINGS_LEO_ASSISTANT_ADD_NEW_MEMORY_BUTTON_LABEL},
+      {"braveLeoAssistantEditMemoryDialogTitle", IDS_SETTINGS_LEO_ASSISTANT_EDIT_MEMORY_DIALOG_TITLE},
+      {"braveLeoAssistantDeleteMemoryConfirmation", IDS_SETTINGS_LEO_ASSISTANT_DELETE_MEMORY_CONFIRMATION},
+
       // Survey Panelist Page
       {"surveyPanelist", IDS_SETTINGS_SURVEY_PANELIST},
       {"braveSurveyPanelistLabel", IDS_SETTINGS_SURVEY_PANELIST_LABEL},
@@ -1072,6 +1080,11 @@ void BraveAddCommonStrings(content::WebUIDataSource* html_source,
   html_source->AddString(
       "braveLeoAssistantAboutLeoDesc2",
       l10n_util::GetStringFUTF16(IDS_SETTINGS_LEO_ASSISTANT_ABOUT_LEO_DESC_2,
+                                 kLeoPrivacyPolicyURL));
+
+  html_source->AddString(
+      "braveLeoAssistantYourMemoriesDesc2",
+      l10n_util::GetStringFUTF16(IDS_SETTINGS_LEO_ASSISTANT_YOUR_MEMORIES_DESC_2,
                                  kLeoPrivacyPolicyURL));
 
   html_source->AddString("braveSurveyPanelistLearnMoreURL",

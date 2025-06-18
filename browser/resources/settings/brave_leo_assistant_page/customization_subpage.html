@@ -54,9 +54,11 @@ You can obtain one at https://mozilla.org/MPL/2.0/. -->
     margin-right: 0 !important;
     padding-right: 0 !important;
   }
+  settings-section[section="memories"] {
+    margin-top: var(--leo-spacing-2xl);
+  }
 </style>
 
-<settings-subpage page-title="$i18n{braveLeoAssistantCustomizationPageTitle}" class="multi-card">
   <settings-section page-title="$i18n{braveLeoAssistantCustomizationTitle}" section="customization">
     <div class="settings-box header">
       <div class="flex">
@@ -134,5 +136,9 @@ You can obtain one at https://mozilla.org/MPL/2.0/. -->
         <leo-button kind="plain-faint" on-click="onReset">$i18n{braveLeoAssistantCustomizationResetButton}</leo-button>
       </div>
     </div>
+  </settings-section>
+
+  <settings-section page-title="$i18n{braveLeoAssistantYourMemoriesTitle}" section="memories">
+    <memory-section></memory-section>
   </settings-section>
 

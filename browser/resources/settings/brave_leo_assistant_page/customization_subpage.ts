@@ -9,6 +9,7 @@ import {PolymerElement} from 'chrome://resources/polymer/v3_0/polymer/polymer_bu
 
 import {BaseMixin} from '../base_mixin.js'
 // import {loadTimeData} from '../i18n_setup.js'
+import './memory_section.js'
 
 import {getTemplate} from './customization_subpage.html.js'
 

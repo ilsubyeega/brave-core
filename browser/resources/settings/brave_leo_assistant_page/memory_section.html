@@ -1,0 +1,132 @@
+<style include="cr-shared-style settings-shared">
+  .list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid var(--leo-color-divider-subtle);
+    border-radius: var(--leo-radius-m);
+  }
+
+  .memory {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--leo-spacing-l) var(--leo-spacing-xl);
+    border-bottom: 1px solid var(--leo-color-divider-subtle);
+  }
+
+  .memory:last-of-type {
+    border-bottom: none;
+  }
+
+  .list-container {
+    padding: 0 var(--leo-spacing-xl) var(--leo-spacing-xl) var(--leo-spacing-xl);
+  }
+
+  .action-box {
+    padding: var(--leo-spacing-xl);
+  }
+
+  .label-secondary {
+    font: var(--leo-font-default-regular);
+    color: var(--leo-color-text-secondary);
+  }
+
+  .header {
+    padding: var(--leo-spacing-2xl);
+  }
+
+  .main-header {
+    font: var(--leo-font-heading-h4);
+  }
+
+  cr-icon-button.size-20 {
+    --iron-icon-width: 20px;
+  }
+</style>
+
+<div class="settings-box header">
+  <div class="flex">
+    <div class="main-header">$i18n{braveLeoAssistantYourMemoriesTitle}</div>
+    <div class="label secondary">
+      <p>$i18n{braveLeoAssistantYourMemoriesDesc1}</p>
+      <p>$i18nRaw{braveLeoAssistantYourMemoriesDesc2}</p>
+    </div>
+  </div>
+</div>
+
+<div class="list-container">
+  <template
+    is="dom-if"
+    if="[[!hasMemories_(memoriesList_)]]"
+  >
+    <div class="alert-container">
+      <leo-alert
+        type="info"
+        has-actions="false"
+      >
+        $i18n{braveLeoAssistantMemoryListEmptyLabel}
+      </leo-alert>
+    </div>
+  </template>
+
+  <template
+    is="dom-if"
+    if="[[hasMemories_(memoriesList_)]]"
+  >
+    <div class="list">
+      <template
+        is="dom-repeat"
+        items="[[memoriesList_]]"
+      >
+        <div class="memory">
+          <div class="memory-info">
+            <div class="label">[[item]]</div>
+          </div>
+          <div class="memory-actions">
+            <cr-icon-button
+              on-click="handleEdit_"
+              class="size-20"
+              iron-icon="edit-pencil"
+            ></cr-icon-button>
+            <cr-icon-button
+              on-click="handleDelete_"
+              class="size-20"
+              iron-icon="trash"
+            ></cr-icon-button>
+          </div>
+        </div>
+      </template>
+    </div>
+  </template>
+</div>
+
+<div class="action-box">
+  <template
+    is="dom-if"
+    if="[[!showMemoryDialog_]]"
+  >
+    <leo-button
+      on-click="handleAddNewMemory_"
+      class="action-button"
+      >$i18n{braveLeoAssistantAddNewMemoryButtonLabel}</leo-button
+    >
+  </template>
+</div>
+
+<template
+  is="dom-if"
+  if="[[showMemoryDialog_]]"
+  restamp
+>
+  <cr-dialog id="memoryDialog" open>
+    <div slot="title">$i18n{braveLeoAssistantEditMemoryDialogTitle}</div>
+    <div slot="body">
+      <input id="memoryInput" type="text" value="[[editingMemory_]]" on-input="onDialogInput_" style="width:100%" />
+    </div>
+    <div slot="button-container">
+      <cr-button class="action-button" on-click="onDialogSave_">$i18n{save}</cr-button>
+      <cr-button on-click="onDialogCancel_">$i18n{cancel}</cr-button>
+    </div>
+  </cr-dialog>
+</template> 
