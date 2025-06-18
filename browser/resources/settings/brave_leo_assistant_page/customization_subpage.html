@@ -54,91 +54,83 @@ You can obtain one at https://mozilla.org/MPL/2.0/. -->
     margin-right: 0 !important;
     padding-right: 0 !important;
   }
-  settings-section[section="memories"] {
-    margin-top: var(--leo-spacing-2xl);
-  }
 </style>
 
-  <settings-section page-title="$i18n{braveLeoAssistantCustomizationTitle}" section="customization">
-    <div class="settings-box header">
-      <div class="flex">
-        <div class="main-header">$i18n{braveLeoAssistantCustomizationTitle}</div>
-        <div class="label secondary">
-          <p>$i18n{braveLeoAssistantCustomizationDescription}</p>
-        </div>
+<settings-section section="customization">
+<div class="settings-box header">
+  <div class="flex">
+    <div class="main-header">$i18n{braveLeoAssistantCustomizationTitle}</div>
+    <div class="label secondary">
+      <p>$i18n{braveLeoAssistantCustomizationDescription}</p>
+    </div>
+  </div>
+</div>
+
+<div class="leo-customization-padding">
+  <settings-toggle-button id="customizationEnabled"
+    pref="{{prefs.brave.ai_chat.user_customization_enabled}}"
+    label="$i18n{braveLeoAssistantCustomizationEnabledLabel}"
+    sub-label="$i18n{braveLeoAssistantCustomizationEnabledDescription}">
+  </settings-toggle-button>
+</div>
+
+<div class="leo-customization-form leo-customization-padding">
+  <div class="input-container">
+    <div class="custom-label">
+      <div class="label-text">
+        <span>$i18n{braveLeoAssistantCustomizationNameLabel}</span>
       </div>
     </div>
-
-    <div class="leo-customization-padding">
-      <settings-toggle-button id="customizationEnabled"
-          pref="{{prefs.brave.ai_chat.user_customization_enabled}}"
-          label="$i18n{braveLeoAssistantCustomizationEnabledLabel}"
-          sub-label="$i18n{braveLeoAssistantCustomizationEnabledDescription}">
-      </settings-toggle-button>
-      <settings-toggle-button id="userMemoryEnabled"
-          pref="{{prefs.brave.ai_chat.user_memory_enabled}}"
-          label="$i18n{braveLeoAssistantUserMemoryEnabledLabel}"
-          sub-label="$i18n{braveLeoAssistantUserMemoryEnabledDescription}">
-      </settings-toggle-button>
-    </div>
-
-    <div class="leo-customization-form leo-customization-padding">
-      <div class="input-container">
-        <div class="custom-label">
-          <div class="label-text">
-            <span>$i18n{braveLeoAssistantCustomizationNameLabel}</span>
-          </div>
-        </div>
-        <leo-input
-          placeholder="$i18n{braveLeoAssistantCustomizationNamePlaceholder}"
-          value="[[leoName]]"
-          size="200">
-        </leo-input>
-      </div>
-      <div class="input-container">
-        <div class="custom-label">
-          <div class="label-text">
-            <span>$i18n{braveLeoAssistantCustomizationJobLabel}</span>
-          </div>
-        </div>
-        <leo-input
-          placeholder="$i18n{braveLeoAssistantCustomizationJobPlaceholder}"
-          value="[[leoJob]]"
-          size="200">
-        </leo-input>
-      </div>
-      <div class="input-container">
-        <div class="custom-label">
-          <div class="label-text">
-            <span>$i18n{braveLeoAssistantCustomizationToneLabel}</span>
-          </div>
-        </div>
-        <leo-input
-          placeholder="$i18n{braveLeoAssistantCustomizationTonePlaceholder}"
-          value="[[leoTone]]"
-          size="200">
-        </leo-input>
-      </div>
-      <div class="input-container">
-        <div class="custom-label">
-          <div class="label-text">
-            <span>$i18n{braveLeoAssistantCustomizationOtherLabel}</span>
-          </div>
-        </div>
-        <leo-input
-          placeholder="$i18n{braveLeoAssistantCustomizationOtherPlaceholder}"
-          value="[[leoOther]]"
-          size="200">
-        </leo-input>
-      </div>
-      <div class="actions">
-        <leo-button kind="outline" on-click="onSave">$i18n{braveLeoAssistantCustomizationSaveButton}</leo-button>
-        <leo-button kind="plain-faint" on-click="onReset">$i18n{braveLeoAssistantCustomizationResetButton}</leo-button>
+    <leo-input
+      placeholder="$i18n{braveLeoAssistantCustomizationNamePlaceholder}"
+      value="[[leoName]]"
+      size="200">
+    </leo-input>
+  </div>
+  <div class="input-container">
+    <div class="custom-label">
+      <div class="label-text">
+        <span>$i18n{braveLeoAssistantCustomizationJobLabel}</span>
       </div>
     </div>
-  </settings-section>
+    <leo-input
+      placeholder="$i18n{braveLeoAssistantCustomizationJobPlaceholder}"
+      value="[[leoJob]]"
+      size="200">
+    </leo-input>
+  </div>
+  <div class="input-container">
+    <div class="custom-label">
+      <div class="label-text">
+        <span>$i18n{braveLeoAssistantCustomizationToneLabel}</span>
+      </div>
+    </div>
+    <leo-input
+      placeholder="$i18n{braveLeoAssistantCustomizationTonePlaceholder}"
+      value="[[leoTone]]"
+      size="200">
+    </leo-input>
+  </div>
+  <div class="input-container">
+    <div class="custom-label">
+      <div class="label-text">
+        <span>$i18n{braveLeoAssistantCustomizationOtherLabel}</span>
+      </div>
+    </div>
+    <leo-input
+      placeholder="$i18n{braveLeoAssistantCustomizationOtherPlaceholder}"
+      value="[[leoOther]]"
+      size="200">
+    </leo-input>
+  </div>
+  <div class="actions">
+    <leo-button kind="outline" on-click="onSave">$i18n{braveLeoAssistantCustomizationSaveButton}</leo-button>
+    <leo-button kind="plain-faint" on-click="onReset">$i18n{braveLeoAssistantCustomizationResetButton}</leo-button>
+  </div>
+</div>
+</settings-section>
 
-  <settings-section page-title="$i18n{braveLeoAssistantYourMemoriesTitle}" section="memories">
-    <memory-section></memory-section>
-  </settings-section>
+<settings-section section="memories">
+  <memory-section></memory-section>
+</settings-section>
 

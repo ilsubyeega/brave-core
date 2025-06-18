@@ -20,7 +20,7 @@
   }
 
   .list-container {
-    padding: 0 var(--leo-spacing-xl) var(--leo-spacing-xl) var(--leo-spacing-xl);
+    padding: var(--leo-spacing-m) var(--leo-spacing-2xl);
   }
 
   .action-box {
@@ -33,15 +33,26 @@
   }
 
   .header {
-    padding: var(--leo-spacing-2xl);
+    padding: var(--leo-spacing-2xl) var(--leo-spacing-2xl) 0 var(--leo-spacing-2xl);
   }
 
   .main-header {
     font: var(--leo-font-heading-h4);
   }
 
+  .leo-customization-padding {
+    padding: var(--leo-spacing-m) var(--leo-spacing-2xl);
+  }
+
   cr-icon-button.size-20 {
     --iron-icon-width: 20px;
+  }
+
+  settings-toggle-button {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
   }
 </style>
 
@@ -56,6 +67,12 @@
 </div>
 
 <div class="list-container">
+  <settings-toggle-button id="userMemoryEnabled"
+      pref="{{prefs.brave.ai_chat.user_memory_enabled}}"
+      label="$i18n{braveLeoAssistantUserMemoryEnabledLabel}"
+      sub-label="$i18n{braveLeoAssistantUserMemoryEnabledDescription}">
+  </settings-toggle-button>
+
   <template
     is="dom-if"
     if="[[!hasMemories_(memoriesList_)]]"
@@ -129,4 +146,4 @@
       <cr-button on-click="onDialogCancel_">$i18n{cancel}</cr-button>
     </div>
   </cr-dialog>
-</template> 
+</template>
