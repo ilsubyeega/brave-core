@@ -137,6 +137,11 @@ class BraveLeoAssistantPageElement extends BraveLeoAssistantPageBase {
     openTabOrganizationLearnMore_() {
       window.open(loadTimeData.getString('braveLeoAssistantTabOrganizationLearnMoreURL'), "_blank", "noopener noreferrer")
     }
+
+    openCustomizationPage_() {
+      const router = Router.getInstance();
+      router.navigateTo(router.getRoutes().BRAVE_LEO_CUSTOMIZATION);
+    }
 }
 
 customElements.define(

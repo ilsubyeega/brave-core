@@ -1,0 +1,139 @@
+<!-- Copyright (c) 2025 The Brave Authors. All rights reserved.
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this file,
+You can obtain one at https://mozilla.org/MPL/2.0/. -->
+
+<style include="settings-shared md-select">
+  .header {
+    padding: var(--leo-spacing-2xl) var(--leo-spacing-2xl) 0 var(--leo-spacing-2xl);
+  }
+
+  .main-header {
+    font: var(--leo-font-heading-h4);
+  }
+
+  .description {
+    font: var(--leo-font-default-regular);
+    color: var(--leo-color-text-secondary);
+    margin-top: var(--leo-spacing-m);
+  }
+  .leo-customization-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--leo-spacing-2xl);
+    align-self: stretch;
+    padding: var(--leo-spacing-m) 0 0 0;
+  }
+  .leo-customization-form .actions {
+    display: flex;
+    flex-direction: row;
+    gap: var(--leo-spacing-m, 16px);
+    margin-top: var(--leo-spacing-l, 16px);
+  }
+  .leo-customization-form leo-input {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--leo-spacing-s);
+    align-self: stretch;
+    width: 100%;
+    display: block;
+  }
+  .leo-customization-form .input-container {
+    width: 100%;
+  }
+  .leo-customization-form .custom-label {
+    margin-bottom: var(--leo-spacing-s);
+  }
+  .leo-customization-padding {
+    padding: var(--leo-spacing-m) var(--leo-spacing-2xl);
+  }
+  settings-toggle-button {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+</style>
+
+<settings-subpage page-title="$i18n{braveLeoAssistantCustomizationPageTitle}" class="multi-card">
+  <settings-section page-title="$i18n{braveLeoAssistantCustomizationTitle}" section="customization">
+    <div class="settings-box header">
+      <div class="flex">
+        <div class="main-header">$i18n{braveLeoAssistantCustomizationTitle}</div>
+        <div class="label secondary">
+          <p>$i18n{braveLeoAssistantCustomizationDescription}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="leo-customization-padding">
+      <settings-toggle-button id="customizationEnabled"
+          pref="{{prefs.brave.ai_chat.user_customization_enabled}}"
+          label="$i18n{braveLeoAssistantCustomizationEnabledLabel}"
+          sub-label="$i18n{braveLeoAssistantCustomizationEnabledDescription}">
+      </settings-toggle-button>
+      <settings-toggle-button id="userMemoryEnabled"
+          pref="{{prefs.brave.ai_chat.user_memory_enabled}}"
+          label="$i18n{braveLeoAssistantUserMemoryEnabledLabel}"
+          sub-label="$i18n{braveLeoAssistantUserMemoryEnabledDescription}">
+      </settings-toggle-button>
+    </div>
+
+    <div class="leo-customization-form leo-customization-padding">
+      <div class="input-container">
+        <div class="custom-label">
+          <div class="label-text">
+            <span>$i18n{braveLeoAssistantCustomizationNameLabel}</span>
+          </div>
+        </div>
+        <leo-input
+          placeholder="$i18n{braveLeoAssistantCustomizationNamePlaceholder}"
+          value="[[leoName]]"
+          size="200">
+        </leo-input>
+      </div>
+      <div class="input-container">
+        <div class="custom-label">
+          <div class="label-text">
+            <span>$i18n{braveLeoAssistantCustomizationJobLabel}</span>
+          </div>
+        </div>
+        <leo-input
+          placeholder="$i18n{braveLeoAssistantCustomizationJobPlaceholder}"
+          value="[[leoJob]]"
+          size="200">
+        </leo-input>
+      </div>
+      <div class="input-container">
+        <div class="custom-label">
+          <div class="label-text">
+            <span>$i18n{braveLeoAssistantCustomizationToneLabel}</span>
+          </div>
+        </div>
+        <leo-input
+          placeholder="$i18n{braveLeoAssistantCustomizationTonePlaceholder}"
+          value="[[leoTone]]"
+          size="200">
+        </leo-input>
+      </div>
+      <div class="input-container">
+        <div class="custom-label">
+          <div class="label-text">
+            <span>$i18n{braveLeoAssistantCustomizationOtherLabel}</span>
+          </div>
+        </div>
+        <leo-input
+          placeholder="$i18n{braveLeoAssistantCustomizationOtherPlaceholder}"
+          value="[[leoOther]]"
+          size="200">
+        </leo-input>
+      </div>
+      <div class="actions">
+        <leo-button kind="outline" on-click="onSave">$i18n{braveLeoAssistantCustomizationSaveButton}</leo-button>
+        <leo-button kind="plain-faint" on-click="onReset">$i18n{braveLeoAssistantCustomizationResetButton}</leo-button>
+      </div>
+    </div>
+  </settings-section>
+</settings-subpage>
+
