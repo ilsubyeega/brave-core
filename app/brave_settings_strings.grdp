@@ -1772,16 +1772,22 @@ Leo AI. This action can't be undone.
   <message name="IDS_SETTINGS_LEO_ASSISTANT_EDIT_MEMORY_DIALOG_TITLE" desc="The title for the edit memory dialog">
     Edit this memory
   </message>
+  <message name="IDS_SETTINGS_LEO_ASSISTANT_CREATE_MEMORY_DIALOG_TITLE" desc="The title for the create new memory dialog">
+    Create a new memory
+  </message>
+  <message name="IDS_SETTINGS_LEO_ASSISTANT_MEMORY_INPUT_PLACEHOLDER" desc="The placeholder text for the memory input field">
+    What do you want Leo to remember?
+  </message>
   <message name="IDS_SETTINGS_LEO_ASSISTANT_DELETE_MEMORY_CONFIRMATION_TITLE" desc="The title for delete memory dialog">
     Delete this memory
   </message>
   <message name="IDS_SETTINGS_LEO_ASSISTANT_DELETE_MEMORY_CONFIRMATION" desc="The confirmation message for deleting a memory">
     Are you sure you want to delete this memory? This action cannot be undone.
   </message>
-  <message name="IDS_SETTINGS_LEO_ASSISTANT_DELETE_ALL_MEMORY" desc="The title for delete all memories dialog and the label for delete all memories action button">
+  <message name="IDS_SETTINGS_LEO_ASSISTANT_DELETE_ALL_MEMORIES_CONFIRMATION_TITLE" desc="The title for delete all memories dialog and the label for delete all memories action button">
     Delete all memories
   </message>
-  <message name="IDS_SETTINGS_LEO_ASSISTANT_DELETE_ALL_MEMORY_CONFIRMATION" desc="The confirmation message for deleting all memories">
+  <message name="IDS_SETTINGS_LEO_ASSISTANT_DELETE_ALL_MEMORIES_CONFIRMATION" desc="The confirmation message for deleting all memories">
     Are you sure you want to delete all memories? This action cannot be undone.
   </message>
 

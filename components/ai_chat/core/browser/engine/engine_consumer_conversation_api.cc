@@ -198,11 +198,33 @@ EngineConsumerConversationAPI::GetUserMemoryEvent() const {
 
   base::Value::Dict user_memory;
   if (customization_enabled) {
+    const std::string& name =
+        pref_service_->GetString(prefs::kBraveAIChatUserCustomizationName);
+    const std::string& job =
+        pref_service_->GetString(prefs::kBraveAIChatUserCustomizationJob);
+    const std::string& tone =
+        pref_service_->GetString(prefs::kBraveAIChatUserCustomizationTone);
+    const std::string& other =
+        pref_service_->GetString(prefs::kBraveAIChatUserCustomizationOther);
+    if (!name.empty()) {
+      user_memory.Set("name", name);
+    }
+    if (!job.empty()) {
+      user_memory.Set("job", job);
+    }
+    if (!tone.empty()) {
+      user_memory.Set("tone", tone);
+    }
+    if (!other.empty()) {
+      user_memory.Set("other", other);
+    }
+    /*
     const base::Value::Dict& customizations =
         pref_service_->GetDict(prefs::kBraveAIChatUserCustomizations);
     if (!customizations.empty()) {
       user_memory = customizations.Clone();
     }
+    */
   }
 
   if (memory_enabled) {

@@ -672,7 +672,12 @@ void BraveAddCommonStrings(content::WebUIDataSource* html_source,
       {"braveLeoAssistantMemoryListEmptyLabel", IDS_SETTINGS_LEO_ASSISTANT_MEMORY_LIST_EMPTY_LABEL},
       {"braveLeoAssistantAddNewMemoryButtonLabel", IDS_SETTINGS_LEO_ASSISTANT_ADD_NEW_MEMORY_BUTTON_LABEL},
       {"braveLeoAssistantEditMemoryDialogTitle", IDS_SETTINGS_LEO_ASSISTANT_EDIT_MEMORY_DIALOG_TITLE},
+      {"braveLeoAssistantCreateMemoryDialogTitle", IDS_SETTINGS_LEO_ASSISTANT_CREATE_MEMORY_DIALOG_TITLE},
+      {"braveLeoAssistantMemoryInputPlaceholder", IDS_SETTINGS_LEO_ASSISTANT_MEMORY_INPUT_PLACEHOLDER},
       {"braveLeoAssistantDeleteMemoryConfirmation", IDS_SETTINGS_LEO_ASSISTANT_DELETE_MEMORY_CONFIRMATION},
+      {"braveLeoAssistantDeleteMemoryConfirmationTitle", IDS_SETTINGS_LEO_ASSISTANT_DELETE_MEMORY_CONFIRMATION_TITLE},
+      {"braveLeoAssistantDeleteAllMemoriesConfirmation", IDS_SETTINGS_LEO_ASSISTANT_DELETE_ALL_MEMORIES_CONFIRMATION},
+      {"braveLeoAssistantDeleteAllMemoriesConfirmationTitle", IDS_SETTINGS_LEO_ASSISTANT_DELETE_ALL_MEMORIES_CONFIRMATION_TITLE},
 
       // Survey Panelist Page
       {"surveyPanelist", IDS_SETTINGS_SURVEY_PANELIST},

@@ -24,7 +24,11 @@
   }
 
   .action-box {
-    padding: var(--leo-spacing-xl);
+    display: flex;
+    padding: var(--leo-spacing-xl) var(--leo-spacing-2xl);
+    align-items: center;
+    gap: var(--leo-spacing-m);
+    align-self: stretch;
   }
 
   .label-secondary {
@@ -42,6 +46,11 @@
 
   .leo-customization-padding {
     padding: var(--leo-spacing-m) var(--leo-spacing-2xl);
+  }
+
+  .memory-actions {
+    display: flex;
+    gap: var(--leo-spacing-m);
   }
 
   cr-icon-button.size-20 {
@@ -125,9 +134,14 @@
   >
     <leo-button
       on-click="handleAddNewMemory_"
-      class="action-button"
-      >$i18n{braveLeoAssistantAddNewMemoryButtonLabel}</leo-button
-    >
+      class="action-button">
+      $i18n{braveLeoAssistantAddNewMemoryButtonLabel}
+    </leo-button>
+    <leo-button
+      on-click="handleDeleteAllMemories_"
+      class="action-button">
+      $i18n{braveLeoAssistantDeleteAllMemoriesConfirmationTitle}
+    </leo-button>
   </template>
 </div>
 
@@ -136,14 +150,44 @@
   if="[[showMemoryDialog_]]"
   restamp
 >
-  <cr-dialog id="memoryDialog" open>
-    <div slot="title">$i18n{braveLeoAssistantEditMemoryDialogTitle}</div>
+  <cr-dialog id="memoryDialog" show-on-attach show-close-button on-close="onDialogCancel_">
+    <div slot="title">[[getDialogTitle_(isEditingMemoryIndex_)]]</div>
     <div slot="body">
-      <input id="memoryInput" type="text" value="[[editingMemory_]]" on-input="onDialogInput_" style="width:100%" />
+      <leo-input required id="memoryInput" type="text" value="[[editingMemory_]]" on-change="onDialogInput_" on-input="onDialogInput_" placeholder="[[getInputPlaceholder_(editingMemory_)]]" style="width:100%"></leo-input>
     </div>
     <div slot="button-container">
-      <cr-button class="action-button" on-click="onDialogSave_">$i18n{save}</cr-button>
       <cr-button on-click="onDialogCancel_">$i18n{cancel}</cr-button>
+      <cr-button class="action-button" on-click="onDialogSave_" disabled="[[!isMemoryInputValid_]]">$i18n{save}</cr-button>
+    </div>
+  </cr-dialog>
+</template>
+
+<template is="dom-if" if="[[showDeleteDialog_]]" restamp>
+  <cr-dialog id="deleteDialog" show-on-attach show-close-button on-close="onDeleteDialogCancel_">
+    <div slot="title">$i18n{braveLeoAssistantDeleteMemoryConfirmation}</div>
+    <div slot="body">
+      $i18n{braveLeoAssistantDeleteMemoryConfirmation}
+    </div>
+    <div slot="button-container">
+      <cr-button on-click="onDeleteDialogCancel_">$i18n{cancel}</cr-button>
+      <cr-button class="action-button" on-click="onDeleteDialogConfirm_" destructive>
+        $i18n{delete}
+      </cr-button>
+    </div>
+  </cr-dialog>
+</template>
+
+<template is="dom-if" if="[[showDeleteAllDialog_]]" restamp>
+  <cr-dialog id="deleteAllDialog" show-on-attach show-close-button on-close="onDeleteAllDialogCancel_">
+    <div slot="title">$i18n{braveLeoAssistantDeleteAllMemoriesConfirmationTitle}</div>
+    <div slot="body">
+      $i18n{braveLeoAssistantDeleteAllMemoriesConfirmation}
+    </div>
+    <div slot="button-container">
+      <cr-button on-click="onDeleteAllDialogCancel_">$i18n{cancel}</cr-button>
+      <cr-button class="action-button" on-click="onDeleteAllDialogConfirm_" destructive>
+        $i18n{delete}
+      </cr-button>
     </div>
   </cr-dialog>
 </template>
