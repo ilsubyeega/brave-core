@@ -231,7 +231,7 @@
     on-click="handleDeleteAllMemories_"
     kind="plain"
     class="action-button"
-    isDisabled="[[!hasMemories_(memoriesList_)]]">
+    isDisabled$="[[!hasMemories_(memoriesList_)]]">
     $i18n{braveLeoAssistantDeleteAllMemoriesConfirmationTitle}
   </leo-button>
 </div>
@@ -248,7 +248,7 @@
     </div>
     <div slot="button-container">
       <leo-button kind="plain-faint" on-click="onDialogCancel_">$i18n{cancel}</leo-button>
-      <leo-button class="action-button" on-click="onDialogSave_" isDisabled="[[!isMemoryInputValid_]]">$i18n{save}</leo-button>
+      <leo-button class="action-button" on-click="onDialogSave_" isDisabled$="[[!isMemoryInputValid_]]">$i18n{save}</leo-button>
     </div>
   </cr-dialog>
 </template>
