@@ -136,6 +136,7 @@ class MemorySection extends MemorySectionBase {
     if (this.deleteMemoryIndex_ !== -1) {
       const key = 'brave.ai_chat.user_memories';
       this.splice(`prefs.${key}.value`, this.deleteMemoryIndex_, 1);
+      this.loadMemories_();
     }
     this.showDeleteDialog_ = false;
     this.deleteMemoryIndex_ = -1;
@@ -161,6 +162,14 @@ class MemorySection extends MemorySectionBase {
     return editingMemory.trim().length > 0
   }
 
+  computeHasMemories_(memoriesList: string[]): boolean {
+    return memoriesList.length > 0
+  }
+
+  hasMemories_(memoriesList: string[]): boolean {
+    return memoriesList.length > 0
+  }
+
   onDialogSave_() {
     this.saveMemory_(this.editingMemory_, this.isEditingMemoryIndex_)
     this.showMemoryDialog_ = false
@@ -176,10 +185,6 @@ class MemorySection extends MemorySectionBase {
 
   private getEditingMemory_(index: number, memoriesList: string[]) {
     return typeof index === 'number' && index >= 0 ? memoriesList[index] : ''
-  }
-
-  private hasMemories_(memoriesList: string[]) {
-    return memoriesList.length > 0
   }
 
   private getDialogTitle_(isEditingMemoryIndex: number) {
@@ -205,7 +210,7 @@ class MemorySection extends MemorySectionBase {
   onDeleteAllDialogConfirm_() {
     const key = 'brave.ai_chat.user_memories';
     this.set(`prefs.${key}.value`, []);
-    this.memoriesList_ = [];
+    this.loadMemories_();
     this.showDeleteAllDialog_ = false;
   }
 }

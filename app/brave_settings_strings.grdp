@@ -1763,8 +1763,11 @@ Leo AI. This action can't be undone.
   <message name="IDS_SETTINGS_LEO_ASSISTANT_YOUR_MEMORIES_DESC_2" desc="The second description for Leo Assistant memory section with link">
     <ph name="BEGIN_LINK">&lt;a target="_blank" href="$1"&gt;</ph>Learn more<ph name="END_LINK">&lt;/a&gt;</ph>
   </message>
-  <message name="IDS_SETTINGS_LEO_ASSISTANT_MEMORY_LIST_EMPTY_LABEL" desc="The label shown when the memory list is empty">
-    You haven't added any memories yet. Add your first memory to help Leo get to know you better.
+  <message name="IDS_SETTINGS_LEO_ASSISTANT_MEMORY_LIST_EMPTY_TITLE" desc="The title shown when the memory list is empty">
+    No memories created yet
+  </message>
+  <message name="IDS_SETTINGS_LEO_ASSISTANT_MEMORY_LIST_EMPTY_DESCRIPTION" desc="The description shown when the memory list is empty">
+    Add a memory to help Leo get to know you better.
   </message>
   <message name="IDS_SETTINGS_LEO_ASSISTANT_ADD_NEW_MEMORY_BUTTON_LABEL" desc="The label for the button to add a new memory">
     Add new memory
