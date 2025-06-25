@@ -33,6 +33,10 @@ OBJC_EXPORT
     NS_SWIFT_NAME(isBlockFingerprintingEnabled(for:));
 - (void)setBlockFingerprintingEnabled:(bool)isEnabled forURL:(NSURL*)url;
 
+- (BraveShieldsAutoShredMode)getAutoShredModeForURL:(NSURL*)url
+    NS_SWIFT_NAME(autoShredMode(for:));
+- (void)setAutoShredMode:(BraveShieldsAutoShredMode)mode forURL:(NSURL*)url;
+
 @end
 
 NS_ASSUME_NONNULL_END
