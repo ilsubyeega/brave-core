@@ -8,25 +8,20 @@ import { scoped } from '../../lib/scoped_css'
 
 export const collapsedTileCount = 6
 export const maxTileColumnCount = 12
-export const maxTileRowCount = 4;
-export const maxTileCount = maxTileColumnCount * maxTileRowCount
+export const maxTileRowCount = 2
+export const maxPageSize = maxTileColumnCount * maxTileRowCount
+export const maxPageCount = 4
+export const tileWidth = 72
+export const nonGridWidth = 64
 
 export const style = scoped.css`
   & {
-    --self-tile-width: 72px;
+    --self-tile-width: ${tileWidth}px;
     --self-tile-height: 82px;
     --self-tile-icon-size: 56px;
     --self-transition-duration: 180ms;
-    --self-backdrop-transition-duration: 100ms;
-    --self-column-count: min(var(--self-tile-count), ${collapsedTileCount});
-    --self-max-grid-width: calc(100vi - 110px);
 
     flex-grow: 1;
-    container-type: inline-size;
-  }
-
-  &.expanded {
-    --self-column-count: min(var(--self-tile-count), ${maxTileColumnCount});
   }
 
   &.hidden {
@@ -41,32 +36,24 @@ export const style = scoped.css`
   }
 
   .top-site-tiles-mask {
-    --self-available-width: calc(100cqi - 64px);
-
-    flex-grow: 1;
     overflow-x: hidden;
     overflow-y: hidden;
-    height: var(--self-tile-height);
-    max-width: min(
-      calc(var(--self-column-count) * var(--self-tile-width)),
-      round(down, var(--self-available-width), var(--self-tile-width)));
-
-    transition:
-      height var(--self-transition-duration),
-      max-width var(--self-transition-duration);
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    max-width: calc(${collapsedTileCount} * var(--self-tile-width));
   }
 
   &.expanded .top-site-tiles-mask {
-    height: fit-content;
+    overflow-x: scroll;
+    max-width: var(--self-max-page-width, none);
   }
 
   .top-site-tiles {
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 16px;
-    width: min(
-      var(--self-max-grid-width),
-      calc(${maxTileColumnCount} * var(--self-tile-width)));
+    position: relative;
+    display: grid;
+    grid-auto-columns: var(--self-tile-width);
+    grid-auto-rows: var(--self-tile-height);
+    grid-row-gap: 16px;
   }
 
   .top-site-tile {
@@ -76,11 +63,8 @@ export const style = scoped.css`
     align-items: center;
     gap: 8px;
     text-decoration: none;
-  }
 
-  .top-site-tile:nth-child(n + ${collapsedTileCount + 1}) {
     opacity: 1;
-
     transition-property: opacity, display;
     transition-duration: var(--self-transition-duration);
     transition-delay: calc(var(--self-transition-duration) - 60ms);
@@ -89,16 +73,6 @@ export const style = scoped.css`
     @starting-style {
       opacity: 0;
     }
-  }
-
-  &.collapsed .top-site-tile:nth-child(n + ${collapsedTileCount + 1}) {
-    display: none;
-    opacity: 0;
-    transition-delay: 0s;
-  }
-
-  .top-site-tile:nth-child(n + ${maxTileCount + 1}) {
-    display: none;
   }
 
   .top-site-icon {
@@ -189,6 +163,10 @@ export const style = scoped.css`
     }
   }
 
+  .left-spacer {
+    flex: 0 0 24px;
+  }
+
   .menu-button {
     --leo-icon-color: rgba(255, 255, 255, .8);
     --leo-icon-size: 24px;
@@ -211,9 +189,13 @@ export const style = scoped.css`
     }
   }
 
+  .menu-divider {
+    border-top: solid 1px ${color.divider.subtle};
+  }
+
   .top-sites-menu {
     position-anchor: --top-sites-menu-button;
-    position-area: block-end span-inline-end;
+    position-area: block-end span-inline-start;
     position-try-fallbacks: flip-block;
   }
 
@@ -231,35 +213,28 @@ export const style = scoped.css`
     position-try-fallbacks: flip-inline, flip-block;
   }
 
-  .expand-button {
-    --leo-icon-size: 24px;
+  .page-nav {
+    --leo-navdots-active-color: #fff;
+    --leo-navdots-active-color-hover: #fff;
+    --leo-navdots-color: #fff;
+    --leo-navdots-color-hover: #fff;
 
-    height: var(--self-tile-icon-size);
-    color: rgba(255, 255, 255, .6);
-    display: flex;
-    align-items: center;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.24);
-    opacity: 0;
-    visibility: hidden;
+    margin-top: 16px;
+    opacity: 1;
+    transition: opacity 500ms;
 
-    transition: opacity var(--self-transition-duration);
-
-    &:hover {
-      background: rgba(255, 255, 255, .35);
-    }
-
-    &:focus-visible {
-      opacity: 1;
-      background: rgba(255, 255, 255, .35);
-      outline: none;
+    @starting-style {
+      opacity: 0;
     }
   }
 
-  &:hover {
-    .menu-button, .expand-button:not(:disabled) {
-      opacity: 1;
-      visibility: visible;
-    }
+  &.collapsed .page-nav {
+    opacity: 0;
+    display: none;
+  }
+
+  &:hover .menu-button {
+    opacity: 1;
+    visibility: visible;
   }
 `

@@ -55,6 +55,7 @@ function updateDropIndicator(tile: HTMLElement, location: DropLocation | null) {
 interface Props {
   topSite: TopSite
   canDrag: boolean
+  style: React.CSSProperties
   onRightClick: (event: React.MouseEvent) => void
   onDrop: (url: string, location: DropLocation) => void
 }
@@ -152,6 +153,7 @@ export function TopSitesTile(props: Props) {
     <a
       ref={rootRef}
       className='top-site-tile'
+      style={props.style}
       href={sanitizeTileURL(url)}
       onDragEnter={onDragEnter}
       onDragOver={onDragOver}
