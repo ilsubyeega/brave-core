@@ -44,6 +44,9 @@ def transform(input_json):
 
     output = collections.defaultdict(
         lambda: {'xml': '', 'test_count': 0, 'failure_count': 0})
+    if not input_json['per_iteration_data']:
+      return output
+
     test_results = input_json['per_iteration_data'][0]
     for test_fullname, iterations in test_results.items():
         delim = '#' if '#' in test_fullname else '/' if '/' in test_fullname else '.'
