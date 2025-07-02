@@ -81,6 +81,8 @@ class BraveStatsHelper;
 class ResourceComponent;
 }  // namespace brave_ads
 
+class BraveOriginProfileObserver;
+
 #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_ANDROID)
 class DayZeroBrowserUIExptManager;
 #endif
@@ -207,6 +209,7 @@ class BraveBrowserProcessImpl : public BraveBrowserProcess,
 
   std::unique_ptr<misc_metrics::ProcessMiscMetrics> process_misc_metrics_;
   std::unique_ptr<brave_ads::BraveStatsHelper> brave_stats_helper_;
+  std::unique_ptr<BraveOriginProfileObserver> brave_origin_profile_observer_;
 
 #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_ANDROID)
   std::unique_ptr<DayZeroBrowserUIExptManager>
