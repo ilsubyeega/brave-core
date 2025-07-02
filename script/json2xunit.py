@@ -1,5 +1,9 @@
+# Copyright (c) 2021 The Brave Authors. All rights reserved.
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this file,
+# You can obtain one at https://mozilla.org/MPL/2.0/.
+
 #!/usr/bin/env python3
-# pylint:disable=line-too-long,consider-using-dict-items
 
 """
 On Android the `--output' switch to `npm run test', which produces xunit

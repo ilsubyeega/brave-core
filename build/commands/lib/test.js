@@ -136,7 +136,7 @@ const runTests = (passthroughArgs, suite, buildConfig, options) => {
   config.update(options)
 
   const isJunitTestSuite = suite.endsWith('_junit_tests')
-  const allResultsFilePath = path.join(config.srcDir, `${suite}.txt`)
+  const allResultsFilePath = path.join(config.outputDir, `${suite}.txt`)
   // Clear previous results file
   deleteFile(allResultsFilePath)
 
