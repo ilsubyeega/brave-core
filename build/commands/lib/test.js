@@ -261,14 +261,14 @@ const runTests = (passthroughArgs, suite, buildConfig, options) => {
       if (config.targetOS === 'android' && !isJunitTestSuite) {
         assert(
           config.targetArch === 'x86'
-          || config.targetArch === 'x64'
-          || options.manual_android_test_device,
+            || config.targetArch === 'x64'
+            || options.manual_android_test_device,
           'Only x86 and x64 builds can be run automatically. For other builds please run test device manually and specify manual_android_test_device flag.',
         )
 
         if (!options.manual_android_test_device) {
           runArgs.push(
-            `--avd-config=tools/android/avd/proto/${options.android_test_emulator_name}.textpb`
+            `--avd-config=tools/android/avd/proto/${options.android_test_emulator_name}.textpb`,
           )
         }
       }
@@ -286,19 +286,15 @@ const runTests = (passthroughArgs, suite, buildConfig, options) => {
 
       // convert json results to xml
       if (prog.status === 0 && convertJSONToXML) {
-        prog = util.run(
-          'vpython3',
-          [path.join('script', 'json2xunit.py')],
-          {
-            ...(config.defaultOptions),
-            cwd: config.braveCoreDir,
-            stdio: [
-              fs.openSync(`${outputFilename}.json`, 'r'),
-              fs.openSync(`${outputFilename}.xml`, 'w'),
-              'inherit'
-            ]
-          }
-        )
+        prog = util.run('vpython3', [path.join('script', 'json2xunit.py')], {
+          ...config.defaultOptions,
+          cwd: config.braveCoreDir,
+          stdio: [
+            fs.openSync(`${outputFilename}.json`, 'r'),
+            fs.openSync(`${outputFilename}.xml`, 'w'),
+            'inherit',
+          ],
+        })
       } else {
         testsDidFail = true
       }
