@@ -255,7 +255,7 @@ const runTests = (passthroughArgs, suite, buildConfig, options) => {
         } else {
           runArgs.push(`--gtest_output=xml:${outputFilename}.xml`)
         }
-        fs.appendFileSync(allResultsFilePath, `${outputFilename}.xml\n`)
+        fs.appendFileSync(allResultsFilePath, `${testSuite}.xml\n`)
       }
 
       if (config.targetOS === 'android' && !isJunitTestSuite) {
