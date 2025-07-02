@@ -136,7 +136,7 @@ const runTests = (passthroughArgs, suite, buildConfig, options) => {
   config.update(options)
 
   const isJunitTestSuite = suite.endsWith('_junit_tests')
-  const allResultsFilePath = path.join(config.outputDir, `${suite}.txt`)
+  const allResultsFilePath = path.join(config.srcDir, `${suite}.txt`)
   // Clear previous results file
   deleteFile(allResultsFilePath)
 
@@ -235,7 +235,7 @@ const runTests = (passthroughArgs, suite, buildConfig, options) => {
       }
 
       let convertJSONToXML = false
-      let outputFilename = path.join(config.outputDir, testSuite)
+      let outputFilename = path.join(config.srcDir, testSuite)
       if (options.output_xml) {
         // When test results are saved to a file, callers (such as CI) generate
         // and analyze test reports as a next step. These callers are typically
