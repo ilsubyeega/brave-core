@@ -78,8 +78,9 @@ def transform(input_json):
             output[test_suite]['failure_count'] += 1
             sanitized_output = ''.join(
                 filter(lambda x: x in printable, iteration['output_snippet']))
-            output[test_suite]['xml'] += (f'<failure message="failed"><![CDATA['
-                                          f'{sanitized_output}]]></failure>')
+            output[test_suite]['xml'] += (
+                f'<failure message="failed"><![CDATA['
+                f'{sanitized_output}]]></failure>')
         output[test_suite]['xml'] += "</testcase>"
     return output
 
@@ -89,8 +90,8 @@ def main():
 
     output = transform(json.load(sys.stdin))
     test_count = reduce(add, (ts['test_count'] for ts in output.values()), 0)
-    failure_count = reduce(add, (ts['failure_count'] for ts in output.values()),
-                           0)
+    failure_count = reduce(add,
+                           (ts['failure_count'] for ts in output.values()), 0)
 
     print(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<testsuites name="tests" '
