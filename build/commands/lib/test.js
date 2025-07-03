@@ -12,7 +12,14 @@ const util = require('../lib/util')
 const assert = require('assert')
 
 const getTestBinary = (suite) => {
-  return process.platform === 'win32' ? `${suite}.exe` : suite
+  let testBinary = suite
+  if (testBinary === 'brave_java_unit_tests') {
+    testBinary = path.join('bin', 'run_brave_java_unit_tests')
+  } else if (testBinary === 'brave_junit_tests') {
+    testBinary = path.join('bin', 'run_brave_junit_tests')
+  }
+  testBinary = path.join(config.outputDir, testBinary)
+  return process.platform === 'win32' ? `${testBinary}.exe` : testBinary
 }
 
 const getChromiumUnitTestsSuites = () => {
@@ -39,10 +46,6 @@ const getTestsToRun = (config, suite) => {
   let testsToRun = []
   if (suite === 'brave_unit_tests') {
     testsToRun = [suite, ...getBraveUnitTestsSuites(config)]
-  } else if (suite === 'brave_java_unit_tests') {
-    testsToRun = ['bin/run_brave_java_unit_tests']
-  } else if (suite === 'brave_junit_tests') {
-    testsToRun = ['bin/run_brave_junit_tests']
   } else if (suite === 'chromium_unit_tests') {
     testsToRun = getChromiumUnitTestsSuites()
   } else {
@@ -280,11 +283,14 @@ const runTests = (passthroughArgs, suite, buildConfig, options) => {
         runOptions.stdio = 'inherit'
       }
 
+      console.log(getTestBinary(testSuite))
+      console.log('----')
       let prog = util.run(
-        path.join(config.outputDir, getTestBinary(testSuite)),
+        getTestBinary(testSuite),
         runArgs,
         runOptions,
       )
+      console.log('----')
 
       // convert json results to xml
       if (prog.status === 0 && convertJSONToXML) {
