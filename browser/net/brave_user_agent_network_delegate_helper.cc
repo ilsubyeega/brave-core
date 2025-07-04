@@ -14,10 +14,26 @@
 #include "net/http/http_request_headers.h"
 
 constexpr char kHeaderSecCHUA[] = "Sec-CH-UA";
+constexpr char kHeaderSecCHUAFullVersionList[] = "Sec-CH-UA-Full-Version-List";
 constexpr char kBraveBrand[] = "\"Brave\"";
 constexpr char kGoogleChromeBrand[] = "\"Google Chrome\"";
 
 namespace brave {
+
+namespace {
+
+void ReplaceBraveWithGoogleChromeInHeader(net::HttpRequestHeaders* headers,
+                                          const char* header_name) {
+  std::optional<std::string> header_value = headers->GetHeader(header_name);
+  if (header_value) {
+    std::string value = header_value.value();
+    base::ReplaceFirstSubstringAfterOffset(&value, /*start_offset=*/0,
+                                           kBraveBrand, kGoogleChromeBrand);
+    headers->SetHeader(header_name, value);
+  }
+}
+
+}  // namespace
 
 int OnBeforeStartTransaction_UserAgentWork(
     net::HttpRequestHeaders* headers,
@@ -29,15 +45,9 @@ int OnBeforeStartTransaction_UserAgentWork(
     if (exceptions) {
       bool show_brave = exceptions->CanShowBrave(ctx->tab_origin);
       if (!show_brave) {
-        std::optional<std::string> sec_ch_ua =
-            headers->GetHeader(kHeaderSecCHUA);
-        if (sec_ch_ua) {
-          std::string sec_ch_ua_value = sec_ch_ua.value();
-          base::ReplaceFirstSubstringAfterOffset(
-              &sec_ch_ua_value, /*start_offset=*/0, kBraveBrand,
-              kGoogleChromeBrand);
-          headers->SetHeader(kHeaderSecCHUA, sec_ch_ua_value);
-        }
+        ReplaceBraveWithGoogleChromeInHeader(headers, kHeaderSecCHUA);
+        ReplaceBraveWithGoogleChromeInHeader(headers,
+                                             kHeaderSecCHUAFullVersionList);
       }
     }
   }
