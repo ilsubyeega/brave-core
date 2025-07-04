@@ -109,7 +109,4 @@ TEST_F(BraveUserAgentNetworkDelegateHelperTest,
   EXPECT_EQ(res.header_value.value(), kSecCHUABrave);
 }
 
-// Note: To fully test the excepted case, BraveUserAgentExceptions would need a
-// test-only API to add domains to excepted_domains_.
-
 }  // namespace brave
