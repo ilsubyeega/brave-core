@@ -55,7 +55,9 @@ void CardanoProviderImpl::IsEnabled(IsEnabledCallback callback) {
 
 void CardanoProviderImpl::Enable(EnableCallback callback) {
   if (!delegate_->IsTabVisible()) {
-    std::move(callback).Run(kTabNotVisibleError);
+    std::move(callback).Run(mojom::CardanoProviderErrorBundle::New(
+        mojom::CardanoProviderErrorCodes::kAPIErrorRefused, kTabNotVisibleError,
+        0));
     return;
   }
 
@@ -94,81 +96,99 @@ mojom::AccountIdPtr CardanoProviderImpl::GetAllowedSelectedAccount() {
 void CardanoProviderImpl::GetNetworkId(GetNetworkIdCallback callback) {
   auto account_id = GetAllowedSelectedAccount();
   if (!account_id) {
-    std::move(callback).Run(0, kAccountNotConnectedError);
+    std::move(callback).Run(
+        0, mojom::CardanoProviderErrorBundle::New(
+               mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+               kAccountNotConnectedError, 0));
     return;
   }
 
   delegate_->WalletInteractionDetected();
 
   // Mocked values for development usage.
-  std::move(callback).Run(0, std::nullopt);
+  std::move(callback).Run(0, nullptr);
 }
 
 void CardanoProviderImpl::GetUsedAddresses(GetUsedAddressesCallback callback) {
   auto account_id = GetAllowedSelectedAccount();
   if (!account_id) {
-    std::move(callback).Run({}, kAccountNotConnectedError);
+    std::move(callback).Run(
+        {}, mojom::CardanoProviderErrorBundle::New(
+                mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+                kAccountNotConnectedError, 0));
     return;
   }
 
   delegate_->WalletInteractionDetected();
 
   // Mocked values for development usage.
-  std::move(callback).Run({"1", "2", "3"}, std::nullopt);
+  std::move(callback).Run({"1", "2", "3"}, nullptr);
 }
 
 void CardanoProviderImpl::GetUnusedAddresses(
     GetUnusedAddressesCallback callback) {
   auto account_id = GetAllowedSelectedAccount();
   if (!account_id) {
-    std::move(callback).Run({}, kAccountNotConnectedError);
+    std::move(callback).Run(
+        {}, mojom::CardanoProviderErrorBundle::New(
+                mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+                kAccountNotConnectedError, 0));
     return;
   }
 
   delegate_->WalletInteractionDetected();
 
   // Mocked values for development usage.
-  std::move(callback).Run({"1", "2", "3"}, std::nullopt);
+  std::move(callback).Run({"1", "2", "3"}, nullptr);
 }
 
 void CardanoProviderImpl::GetChangeAddress(GetChangeAddressCallback callback) {
   auto account_id = GetAllowedSelectedAccount();
   if (!account_id) {
-    std::move(callback).Run({}, kAccountNotConnectedError);
+    std::move(callback).Run(
+        {}, mojom::CardanoProviderErrorBundle::New(
+                mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+                kAccountNotConnectedError, 0));
     return;
   }
 
   delegate_->WalletInteractionDetected();
 
   // Mocked values for development usage.
-  std::move(callback).Run("1", std::nullopt);
+  std::move(callback).Run("1", nullptr);
 }
 
 void CardanoProviderImpl::GetRewardAddresses(
     GetRewardAddressesCallback callback) {
   auto account_id = GetAllowedSelectedAccount();
   if (!account_id) {
-    std::move(callback).Run({}, kAccountNotConnectedError);
+    std::move(callback).Run(
+        {}, mojom::CardanoProviderErrorBundle::New(
+                mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+                kAccountNotConnectedError, 0));
     return;
   }
 
   delegate_->WalletInteractionDetected();
 
   // Mocked values for development usage.
-  std::move(callback).Run({"2"}, std::nullopt);
+  std::move(callback).Run({"2"}, nullptr);
 }
 
 void CardanoProviderImpl::GetBalance(GetBalanceCallback callback) {
   auto account_id = GetAllowedSelectedAccount();
   if (!account_id) {
-    std::move(callback).Run({}, kAccountNotConnectedError);
+    std::move(callback).Run(
+        {}, mojom::CardanoProviderErrorBundle::New(
+                mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+                kAccountNotConnectedError, 0));
     return;
   }
 
   delegate_->WalletInteractionDetected();
 
   // Mocked values for development usage.
-  std::move(callback).Run("2", std::nullopt);
+  std::move(callback).Run("2", nullptr);
 }
 
 void CardanoProviderImpl::GetUtxos(const std::optional<std::string>& amount,
@@ -176,14 +196,17 @@ void CardanoProviderImpl::GetUtxos(const std::optional<std::string>& amount,
                                    GetUtxosCallback callback) {
   auto account_id = GetAllowedSelectedAccount();
   if (!account_id) {
-    std::move(callback).Run({}, kAccountNotConnectedError);
+    std::move(callback).Run(
+        {}, mojom::CardanoProviderErrorBundle::New(
+                mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+                kAccountNotConnectedError, 0));
     return;
   }
 
   delegate_->WalletInteractionDetected();
 
   // Mocked values for development usage.
-  std::move(callback).Run(std::vector<std::string>({"1", "2"}), std::nullopt);
+  std::move(callback).Run(std::vector<std::string>({"1", "2"}), nullptr);
 }
 
 void CardanoProviderImpl::SignTx(const std::string& tx_cbor,
@@ -191,28 +214,34 @@ void CardanoProviderImpl::SignTx(const std::string& tx_cbor,
                                  SignTxCallback callback) {
   auto account_id = GetAllowedSelectedAccount();
   if (!account_id) {
-    std::move(callback).Run({}, kAccountNotConnectedError);
+    std::move(callback).Run(
+        {}, mojom::CardanoProviderErrorBundle::New(
+                mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+                kAccountNotConnectedError, 0));
     return;
   }
 
   delegate_->WalletInteractionDetected();
 
   // Mocked values for development usage.
-  std::move(callback).Run("signed", std::nullopt);
+  std::move(callback).Run("signed", nullptr);
 }
 
 void CardanoProviderImpl::SubmitTx(const std::string& signed_tx_cbor,
                                    SubmitTxCallback callback) {
   auto account_id = GetAllowedSelectedAccount();
   if (!account_id) {
-    std::move(callback).Run({}, kAccountNotConnectedError);
+    std::move(callback).Run(
+        {}, mojom::CardanoProviderErrorBundle::New(
+                mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+                kAccountNotConnectedError, 0));
     return;
   }
 
   delegate_->WalletInteractionDetected();
 
   // Mocked values for development usage.
-  std::move(callback).Run("txhash", std::nullopt);
+  std::move(callback).Run("txhash", nullptr);
 }
 
 void CardanoProviderImpl::SignData(const std::string& address,
@@ -220,7 +249,10 @@ void CardanoProviderImpl::SignData(const std::string& address,
                                    SignDataCallback callback) {
   auto account_id = GetAllowedSelectedAccount();
   if (!account_id) {
-    std::move(callback).Run({}, kAccountNotConnectedError);
+    std::move(callback).Run(
+        {}, mojom::CardanoProviderErrorBundle::New(
+                mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+                kAccountNotConnectedError, 0));
     return;
   }
 
@@ -228,21 +260,24 @@ void CardanoProviderImpl::SignData(const std::string& address,
 
   // Mocked values for development usage.
   std::move(callback).Run(mojom::CardanoProviderSignatureResult::New("1", "2"),
-                          std::nullopt);
+                          nullptr);
 }
 
 void CardanoProviderImpl::GetCollateral(const std::string& amount,
                                         GetCollateralCallback callback) {
   auto account_id = GetAllowedSelectedAccount();
   if (!account_id) {
-    std::move(callback).Run({}, kAccountNotConnectedError);
+    std::move(callback).Run(
+        {}, mojom::CardanoProviderErrorBundle::New(
+                mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+                kAccountNotConnectedError, 0));
     return;
   }
 
   delegate_->WalletInteractionDetected();
 
   // Mocked values for development usage.
-  std::move(callback).Run(std::vector<std::string>({"1", "2"}), std::nullopt);
+  std::move(callback).Run(std::vector<std::string>({"1", "2"}), nullptr);
 }
 
 void CardanoProviderImpl::RequestCardanoPermissions(EnableCallback callback,
@@ -322,24 +357,29 @@ void CardanoProviderImpl::OnRequestCardanoPermissions(
     has_allowed_account = !allowed_accounts->empty();
   }
 
-  std::optional<std::string> error_message;
+  mojom::CardanoProviderErrorBundlePtr error_bundle;
   if (success && !has_allowed_account) {
-    error_message = l10n_util::GetStringUTF8(IDS_WALLET_USER_REJECTED_REQUEST);
+    error_bundle = mojom::CardanoProviderErrorBundle::New(
+        mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+        l10n_util::GetStringUTF8(IDS_WALLET_USER_REJECTED_REQUEST), 0);
   } else if (!success) {
     switch (error) {
       case mojom::RequestPermissionsError::kRequestInProgress:
-        error_message =
-            l10n_util::GetStringUTF8(IDS_WALLET_USER_REJECTED_REQUEST);
+        error_bundle = mojom::CardanoProviderErrorBundle::New(
+            mojom::CardanoProviderErrorCodes::kAPIErrorRefused,
+            l10n_util::GetStringUTF8(IDS_WALLET_USER_REJECTED_REQUEST), 0);
         break;
       case mojom::RequestPermissionsError::kInternal:
-        error_message = l10n_util::GetStringUTF8(IDS_WALLET_INTERNAL_ERROR);
+        error_bundle = mojom::CardanoProviderErrorBundle::New(
+            mojom::CardanoProviderErrorCodes::kAPIErrorInternalError,
+            l10n_util::GetStringUTF8(IDS_WALLET_USER_REJECTED_REQUEST), 0);
         break;
       default:
         NOTREACHED() << error;
     }
   }
 
-  std::move(callback).Run(error_message);
+  std::move(callback).Run(std::move(error_bundle));
 }
 
 BraveWalletProviderDelegate* CardanoProviderImpl::delegate() {
