@@ -283,14 +283,7 @@ const runTests = (passthroughArgs, suite, buildConfig, options) => {
         runOptions.stdio = 'inherit'
       }
 
-      console.log(getTestBinary(testSuite))
-      console.log('----')
-      let prog = util.run(
-        getTestBinary(testSuite),
-        runArgs,
-        runOptions,
-      )
-      console.log('----')
+      let prog = util.run(getTestBinary(testSuite), runArgs, runOptions)
 
       // convert json results to xml
       if (prog.status === 0 && convertJSONToXML) {
