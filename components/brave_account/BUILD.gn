@@ -9,10 +9,13 @@ source_set("brave_account") {
     "brave_account_service.h",
     "brave_account_service_factory_base.h",
     "brave_account_ui_base.h",
+    "endpoints/verify/init.cc",
+    "endpoints/verify/init.h",
   ]
 
   deps = [
     "//base",
+    "//brave/components/api_request_helper",
     "//brave/components/brave_account:features",
     "//brave/components/brave_account/resources",
     "//brave/components/constants",
@@ -23,9 +26,11 @@ source_set("brave_account") {
     "//components/keyed_service/core",
     "//components/prefs",
     "//mojo/public/cpp/bindings",
+    "//net/traffic_annotation",
     "//services/network/public/cpp",
     "//services/network/public/mojom:mojom_content_security_policy",
     "//ui/base",
+    "//url",
   ]
 }
 

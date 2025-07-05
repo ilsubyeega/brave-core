@@ -6,6 +6,8 @@
 #ifndef BRAVE_COMPONENTS_BRAVE_ACCOUNT_BRAVE_ACCOUNT_SERVICE_H_
 #define BRAVE_COMPONENTS_BRAVE_ACCOUNT_BRAVE_ACCOUNT_SERVICE_H_
 
+#include <memory>
+
 #include "base/memory/raw_ptr.h"
 #include "base/memory/scoped_refptr.h"
 #include "components/keyed_service/core/keyed_service.h"
@@ -17,6 +19,10 @@ class SharedURLLoaderFactory;
 }  // namespace network
 
 namespace brave_account {
+
+namespace endpoints {
+class VerifyInit;
+}
 
 class BraveAccountService : public KeyedService {
  public:
@@ -32,6 +38,7 @@ class BraveAccountService : public KeyedService {
  private:
   const raw_ptr<PrefService> pref_service_;
   scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory_;
+  std::unique_ptr<endpoints::VerifyInit> verify_init_;
 };
 
 }  // namespace brave_account
