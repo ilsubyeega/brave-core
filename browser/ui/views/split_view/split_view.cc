@@ -614,7 +614,7 @@ void SplitView::OnWidgetWindowModalVisibilityChanged(views::Widget* widget,
   // MacOS does not need views window scrim. We use sheets to show window modals
   // (-[NSWindow beginSheet:]), which natively draw a scrim since macOS 11.
   if (secondary_contents_container_->GetVisible()) {
-//    secondary_contents_scrim_view_->SetVisible(visible);
+    // secondary_contents_scrim_view_->SetVisible(visible);
   }
 #endif
 }
