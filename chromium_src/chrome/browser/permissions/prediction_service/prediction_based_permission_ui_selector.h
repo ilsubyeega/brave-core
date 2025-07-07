@@ -3,8 +3,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#ifndef BRAVE_CHROMIUM_SRC_CHROME_BROWSER_PERMISSIONS_PREDICTION_BASED_PERMISSION_UI_SELECTOR_H_
-#define BRAVE_CHROMIUM_SRC_CHROME_BROWSER_PERMISSIONS_PREDICTION_BASED_PERMISSION_UI_SELECTOR_H_
+#ifndef BRAVE_CHROMIUM_SRC_CHROME_BROWSER_PERMISSIONS_PREDICTION_SERVICE_PREDICTION_BASED_PERMISSION_UI_SELECTOR_H_
+#define BRAVE_CHROMIUM_SRC_CHROME_BROWSER_PERMISSIONS_PREDICTION_SERVICE_PREDICTION_BASED_PERMISSION_UI_SELECTOR_H_
 
 #include "components/permissions/permission_ui_selector.h"
 
@@ -13,7 +13,7 @@
       permissions::RequestType request_type); \
   bool IsPermissionRequestSupported
 
-#include "src/chrome/browser/permissions/prediction_based_permission_ui_selector.h"  // IWYU pragma: export
+#include "src/chrome/browser/permissions/prediction_service/prediction_based_permission_ui_selector.h"  // IWYU pragma: export
 #undef IsPermissionRequestSupported
 
-#endif  // BRAVE_CHROMIUM_SRC_CHROME_BROWSER_PERMISSIONS_PREDICTION_BASED_PERMISSION_UI_SELECTOR_H_
+#endif  // BRAVE_CHROMIUM_SRC_CHROME_BROWSER_PERMISSIONS_PREDICTION_SERVICE_PREDICTION_BASED_PERMISSION_UI_SELECTOR_H_
