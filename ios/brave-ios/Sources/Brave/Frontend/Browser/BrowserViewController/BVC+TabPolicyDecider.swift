@@ -376,6 +376,7 @@ extension BrowserViewController: TabPolicyDecider {
           cookies: cookies
         )
 
+        // TODO: Use BraveShieldsUtilsIOS
         let domain = Domain.getOrCreate(forUrl: requestURL, persistent: !isPrivateBrowsing)
         let adsBlockingShieldUp = domain.globalBlockAdsAndTrackingLevel.isEnabled
         let isAggressiveAdsBlocking =
@@ -610,6 +611,7 @@ extension BrowserViewController {
   ) -> URLRequest? {
     guard let requestURL = request.url else { return nil }
 
+    // TODO: Use BraveShieldsUtilsIOS
     // For main frame only and if shields are enabled
     guard requestURL.isWebPage(includeDataURIs: false),
       domainForMainFrame.globalBlockAdsAndTrackingLevel.isEnabled,

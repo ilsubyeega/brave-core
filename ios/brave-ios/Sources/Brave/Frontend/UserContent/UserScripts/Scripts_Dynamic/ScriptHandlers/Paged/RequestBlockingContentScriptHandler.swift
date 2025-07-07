@@ -118,7 +118,7 @@ class RequestBlockingContentScriptHandler: TabContentScript {
               requestURL: requestURL,
               sourceURL: windowOriginURL,
               resourceType: dto.data.resourceType,
-              isAggressive: domain.globalBlockAdsAndTrackingLevel.isAggressive,
+              isAggressive: domain.globalBlockAdsAndTrackingLevel.isAggressive, // TODO: Use BraveShieldsUtilsIOS
               location: .requestBlocking
             )
           )

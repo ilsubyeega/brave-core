@@ -80,13 +80,13 @@ extension ContentBlockerHelper: TabContentScript {
         Task { @MainActor in
           let isPrivateBrowsing = self.tab?.isPrivate == true
           let domain = Domain.getOrCreate(forUrl: currentTabURL, persistent: !isPrivateBrowsing)
-          if domain.areAllShieldsOff {
+          if domain.areAllShieldsOff { // TODO: Use BraveShieldsUtilsIOS
             // if domain is "all_off", can just skip
             return
           }
 
           if dto.resourceType == .script
-            && domain.isShieldExpected(.noScript, considerAllShieldsOption: true)
+            && domain.isShieldExpected(.noScript, considerAllShieldsOption: true) // TODO: Use BraveShieldsUtilsIOS
           {
             self.stats = self.stats.adding(scriptCount: 1)
             BraveGlobalShieldStats.shared.scripts += 1
@@ -99,7 +99,7 @@ extension ContentBlockerHelper: TabContentScript {
           guard let sourceURL = NSURL(idnString: dto.sourceURL) as URL? else { return }
           guard let domainURLString = domain.url else { return }
           let genericTypes = AdBlockGroupsManager.shared.contentBlockerManager.validGenericTypes(
-            for: domain
+            for: domain // TODO: Use BraveShieldsUtilsIOS
           )
 
           let blockedType = await blockedTypes(
@@ -107,7 +107,7 @@ extension ContentBlockerHelper: TabContentScript {
             sourceURL: sourceURL,
             enabledRuleTypes: genericTypes,
             resourceType: dto.resourceType,
-            domain: domain
+            domain: domain // TODO: Use BraveShieldsUtilsIOS
           )
 
           guard let blockedType = blockedType else { return }
@@ -145,7 +145,7 @@ extension ContentBlockerHelper: TabContentScript {
               requestURL: requestURL,
               sourceURL: sourceURL,
               resourceType: dto.resourceType,
-              isAggressive: domain.globalBlockAdsAndTrackingLevel.isAggressive,
+              isAggressive: domain.globalBlockAdsAndTrackingLevel.isAggressive, // TODO: Use BraveShieldsUtilsIOS
               location: .contentBlocker
             )
           )
@@ -188,7 +188,7 @@ extension ContentBlockerHelper: TabContentScript {
         requestURL: requestURL,
         sourceURL: sourceURL,
         resourceType: resourceType,
-        domain: domain
+        domain: domain // TODO: Use BraveShieldsUtilsIOS
       ) {
         return .ad
       }

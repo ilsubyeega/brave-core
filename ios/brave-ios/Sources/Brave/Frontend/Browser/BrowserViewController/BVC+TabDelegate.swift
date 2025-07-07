@@ -332,6 +332,7 @@ extension BrowserViewController: TabDelegate {
   public func tab(_ tab: some TabState, shouldBlockJavaScriptForRequest request: URLRequest) -> Bool
   {
     guard let documentTargetURL = request.mainDocumentURL else { return false }
+    // TODO: Use BraveShieldsUtilsIOS
     let domainForShields = Domain.getOrCreate(
       forUrl: documentTargetURL,
       persistent: !tab.isPrivate

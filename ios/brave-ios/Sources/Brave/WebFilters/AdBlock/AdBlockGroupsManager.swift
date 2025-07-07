@@ -379,6 +379,7 @@ import os
 
   /// Get all required rule lists for the given domain
   public func ruleLists(for domain: Domain) async -> Set<WKContentRuleList> {
+    // TODO: Use BraveShieldsUtilsIOS
     let validBlocklistTypes = self.validBlocklistTypes(for: domain)
     let level = domain.globalBlockAdsAndTrackingLevel
 
@@ -401,6 +402,7 @@ import os
   /// A list of all valid (enabled) blocklist types for the given domain
   private func validBlocklistTypes(for domain: Domain) -> Set<(ContentBlockerManager.BlocklistType)>
   {
+    // TODO: Use BraveShieldsUtilsIOS
     guard !domain.areAllShieldsOff else { return [] }
 
     // 1. Get the generic types
@@ -554,6 +556,7 @@ import os
     resourceType: AdblockEngine.ResourceType,
     domain: Domain
   ) async -> Bool {
+    // TODO: Use BraveShieldsUtilsIOS
     return await cachedEngines(isAdBlockEnabled: domain.globalBlockAdsAndTrackingLevel.isEnabled)
       .asyncConcurrentMap({ cachedEngine in
         return await cachedEngine.shouldBlock(
