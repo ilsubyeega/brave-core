@@ -18,6 +18,7 @@ struct SubmitReportView: View {
   @Environment(\.dismiss) private var dismiss: DismissAction
   let url: URL
   let isPrivateBrowsing: Bool
+  let braveShieldsUtils: BraveShieldsUtilsIOS
 
   @ScaledMetric private var textEditorHeight = 80.0
   @State private var additionalDetails = ""
@@ -148,14 +149,38 @@ struct SubmitReportView: View {
     let adblkList = FilterListStorage.shared.filterLists
       .compactMap({ return $0.isEnabled ? $0.entry.title : nil })
       .joined(separator: ",")
+    let isAdBlockEnabled: Bool
+    let adBlockSetting: String
+    let fpBlockSetting: String
+    if FeatureList.kBraveShieldsContentSettings.enabled {
+      let adBlockMode =
+        braveShieldsUtils.adBlockMode(
+          for: url,
+          isPrivate: isPrivateBrowsing,
+          considerAllShieldsOption: true
+        )
+      isAdBlockEnabled = adBlockMode != .allow
+      adBlockSetting = adBlockMode.shieldLevel.reportLabel
+      fpBlockSetting =
+        braveShieldsUtils.isShieldExpected(
+          url: url,
+          isPrivate: isPrivateBrowsing,
+          shield: .fpProtection,
+          considerAllShieldsOption: true
+        ) ? ShieldLevel.standard.reportLabel : ShieldLevel.disabled.reportLabel
+    } else {
+      isAdBlockEnabled = domain.globalBlockAdsAndTrackingLevel.isEnabled
+      adBlockSetting = domain.globalBlockAdsAndTrackingLevel.reportLabel
+      fpBlockSetting = domain.finterprintProtectionLevel.reportLabel
+    }
     webcompatReporterAPI.submitWebcompatReport(
       reportInfo: .init(
         channel: AppConstants.buildChannel.webCompatReportName,
         braveVersion: version,
         reportUrl: url.absoluteString,
-        shieldsEnabled: String(!domain.areAllShieldsOff),
-        adBlockSetting: domain.globalBlockAdsAndTrackingLevel.reportLabel,
-        fpBlockSetting: domain.finterprintProtectionLevel.reportLabel,
+        shieldsEnabled: String(isAdBlockEnabled),
+        adBlockSetting: adBlockSetting,
+        fpBlockSetting: fpBlockSetting,
         adBlockListNames: adblkList,
         languages: Locale.current.language.languageCode?.identifier,
         languageFarbling: String(true),
@@ -170,13 +195,6 @@ struct SubmitReportView: View {
       )
     )
   }
-}
-
-#Preview {
-  SubmitReportView(
-    url: URL(string: "https://brave.com/privacy-features")!,
-    isPrivateBrowsing: false
-  )
 }
 
 extension ShieldLevel {
