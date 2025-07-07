@@ -14,6 +14,7 @@ import { TopSites } from './top_sites/top_sites'
 import { Clock } from './common/clock'
 import { WidgetStack } from './widgets/widget_stack'
 import { NewsFeed } from './news/news_feed'
+import { useAppInitialized } from './app_initialized'
 import useMediaQuery from '$web-common/useMediaQuery'
 
 import { style, threeColumnBreakpoint } from './app.style'
@@ -21,6 +22,7 @@ import { style, threeColumnBreakpoint } from './app.style'
 const threeColumnQuery = `(width > ${threeColumnBreakpoint})`
 
 export function App() {
+  const appInitialized = useAppInitialized()
   const [settingsView, setSettingsView] =
     React.useState<SettingsView | null>(null)
 
@@ -35,6 +37,14 @@ export function App() {
     setSettingsView(settingsArg === 'BraveNews' ? 'news' : 'background')
     history.pushState(null, '', '/')
   }, [])
+
+  if (!appInitialized) {
+    return (
+      <div data-css-scope={style.scope}>
+        <Background />
+      </div>
+    )
+  }
 
   return (
     <div data-css-scope={style.scope}>
