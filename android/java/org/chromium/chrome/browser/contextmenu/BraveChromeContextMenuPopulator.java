@@ -39,6 +39,7 @@ public class BraveChromeContextMenuPopulator extends ChromeContextMenuPopulator 
         if (itemId != R.id.contextmenu_copy_clean_link) {
             return super.onItemSelected(itemId);
         }
+        mItemDelegate.onOpenInChrome(mParams.getUrl(), mParams.getPageUrl());
         UrlSanitizerService urlSanitizerService =
                 UrlSanitizerServiceFactory.getInstance()
                         .getUrlSanitizerAndroidService(getProfile(), null);

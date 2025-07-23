@@ -4061,6 +4061,9 @@ If you don't accept this request, VPN will not reconnect and your internet conne
     <message name="IDS_BRAVE_HOMEPAGE_MOBILE_BOOKMARKS_TEXT" desc="Text for `Mobile bookmarks` setting in `Homepage` settings">
       Mobile bookmarks
     </message>
+    <message name="IDS_BRAVE_OPEN_EXTERNAL_APPLICATION_TITLE" desc="Open the external app from current URL, if available.">
+      Open in external app
+    </message>
   </messages>
   </release>
 </grit>

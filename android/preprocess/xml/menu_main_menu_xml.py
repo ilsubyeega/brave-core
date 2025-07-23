@@ -129,4 +129,16 @@ def _ProcessXML(root):
     speedreader_idx = list(parent).index(speedreader_child)
     parent.insert(speedreader_idx, speedreader_node)
 
+    open_external_node_str = '<item xmlns:android='\
+            '"http://schemas.android.com/apk/res/android" '\
+            'android:id="@+id/brave_open_external_application_id" '\
+            'android:title="@string/brave_open_external_application_title" '\
+            'android:icon="@drawable/ic_readermode"/>'
+    open_external_node = ET.fromstring(open_external_node_str,
+                                       parser=ET.XMLParser(encoding="utf-8"))
+    open_external_child = parent.find('item/[@android:id="@+id/all_bookmarks_menu_id"]',
+                                      namespaces=ns)
+    open_external_idx = list(parent).index(open_external_child)
+    parent.insert(open_external_idx, open_external_node)
+
     return root

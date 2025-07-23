@@ -13,6 +13,7 @@ import static androidx.browser.customtabs.CustomTabsIntent.COLOR_SCHEME_LIGHT;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -31,6 +32,7 @@ import androidx.core.view.MenuCompat;
 import org.jni_zero.CalledByNative;
 
 import org.chromium.base.IntentUtils;
+import org.chromium.base.PackageManagerUtils;
 import org.chromium.base.Log;
 import org.chromium.base.supplier.ObservableSupplier;
 import org.chromium.build.annotations.NullMarked;
@@ -49,6 +51,7 @@ import org.chromium.chrome.browser.tasks.tab_management.BraveTabUiFeatureUtiliti
 import org.chromium.chrome.browser.toolbar.LocationBarModel;
 import org.chromium.components.bookmarks.BookmarkId;
 import org.chromium.content_public.browser.LoadUrlParams;
+import org.chromium.url.GURL;
 import org.chromium.ui.util.ColorUtils;
 
 import java.lang.reflect.Field;
@@ -383,5 +386,29 @@ public class TabUtils {
 
     private static void tintIcon(@Nullable Drawable icon, int color) {
         if (icon != null) icon.setTint(color);
+    }
+
+    public static Intent createViewIntent(GURL url) {
+        return new Intent(Intent.ACTION_VIEW, Uri.parse(url.getSpec()));
+    }
+    // Detect whose application will used for.
+    // See {@link ExternalNavigationHandler#canExternalAppHandleUrl(url)}
+    public static ResolveInfo resolveUriExternalApp(GURL url) {
+        Intent intent;
+        try {
+            intent = createViewIntent(url);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        } catch (Exception ex) {
+            // Ignore the error.
+            Log.w(TAG, "Bad URI %s", url, ex);
+            return null;
+        }        
+        return PackageManagerUtils.resolveActivity(intent, 0);
+    }
+
+    public static boolean canHandleExternalApp(GURL url) {
+        // FIXME: check the package is the chromium browser itself
+        ResolveInfo resolveInfo = resolveUriExternalApp(url);
+        return resolveInfo != null;
     }
 }

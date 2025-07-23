@@ -193,6 +193,7 @@ import org.chromium.chrome.browser.ui.messages.snackbar.SnackbarManager.Snackbar
 import org.chromium.chrome.browser.ui.messages.snackbar.SnackbarManagerProvider;
 import org.chromium.chrome.browser.util.BraveConstants;
 import org.chromium.chrome.browser.util.BraveDbUtil;
+import org.chromium.chrome.browser.util.TabUtils;
 import org.chromium.chrome.browser.util.KeyboardVisibilityHelper;
 import org.chromium.chrome.browser.util.LiveDataUtil;
 import org.chromium.chrome.browser.util.PackageUtils;
@@ -475,6 +476,8 @@ public abstract class BraveActivity extends ChromeActivity
             enableSpeedreaderMode();
         } else if (id == R.id.brave_leo_id) {
             openBraveLeo();
+        } else if (id == R.id.brave_open_external_application_id) {
+            openExternalApp();
         } else {
             return false;
         }
@@ -2070,6 +2073,19 @@ public abstract class BraveActivity extends ChromeActivity
             getBraveToolbarLayout().showRewardsPage();
         } else {
             openNewOrSelectExistingTab(BRAVE_REWARDS_SETTINGS_URL);
+        }
+    }
+
+    public void openExternalApp() {
+        Tab tab = getActivityTab();
+        try {
+            Intent intent = TabUtils.createViewIntent(tab.getUrl());
+            Context app = ContextUtils.getApplicationContext();
+
+            app.startActivity(intent);
+        } catch (Exception ex) {
+            Log.e("BraveActivity", "Couldn't run open in external app. url: " + tab.getUrl());
+            Log.e("BraveActivity", ex.toString());
         }
     }
 

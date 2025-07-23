@@ -59,6 +59,7 @@ import org.chromium.chrome.browser.toolbar.top.BraveToolbarLayoutImpl;
 import org.chromium.chrome.browser.ui.appmenu.AppMenuDelegate;
 import org.chromium.chrome.browser.ui.appmenu.AppMenuHandler;
 import org.chromium.chrome.browser.ui.messages.snackbar.SnackbarManager;
+import org.chromium.chrome.browser.util.TabUtils;
 import org.chromium.chrome.browser.vpn.utils.BraveVpnPrefUtils;
 import org.chromium.chrome.browser.vpn.utils.BraveVpnProfileUtils;
 import org.chromium.chrome.browser.vpn.utils.BraveVpnUtils;
@@ -185,6 +186,11 @@ public class BraveTabbedAppMenuPropertiesDelegate extends TabbedAppMenuPropertie
         // Brave donesn't show `Clear browsing data` menu.
         menu.findItem(R.id.quick_delete_menu_id).setVisible(false).setEnabled(false);
         menu.findItem(R.id.quick_delete_divider_line_id).setVisible(false).setEnabled(false);
+
+        // Do not show `Open in external application` first. After page loads, then enable it.
+        if (!shouldShowOpenInExternalApplication(mActivityTabProvider.get())) {
+            menu.findItem(R.id.brave_open_external_application_id).setVisible(false).setEnabled(false);
+        }
 
         // Brave's items are only visible for page menu.
         // To make logic simple, below three items are added whenever menu gets visible
@@ -361,6 +367,7 @@ public class BraveTabbedAppMenuPropertiesDelegate extends TabbedAppMenuPropertie
         mMenu.removeItem(R.id.exit_id);
         mMenu.removeItem(R.id.request_brave_vpn_row_menu_id);
         mMenu.removeItem(R.id.request_vpn_location_id);
+        mMenu.removeItem(R.id.brave_open_external_application_id);
     }
 
     @Override
@@ -496,5 +503,10 @@ public class BraveTabbedAppMenuPropertiesDelegate extends TabbedAppMenuPropertie
     protected boolean shouldShowMoveToOtherWindow() {
         return BraveMultiWindowUtils.shouldEnableMultiWindows()
                 && super.shouldShowMoveToOtherWindow();
+    }
+
+    private boolean shouldShowOpenInExternalApplication(Tab currentTab) {
+        return currentTab != null
+            && TabUtils.canHandleExternalApp(currentTab.getUrl());
     }
 }

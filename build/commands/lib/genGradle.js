@@ -19,8 +19,6 @@ const genGradle = (
   Log.progressScope('Generating Gradle files', () => {
     braveArgs = [
       'build/android/gradle/generate_gradle.py',
-      '--output-directory',
-      config.outputDir,
     ]
 
     const filteredArgs = passthroughArgs.filter(
